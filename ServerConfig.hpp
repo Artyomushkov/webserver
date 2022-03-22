@@ -17,7 +17,7 @@
 class ServerConfig {
 
 private:
-	std::vector<std::pair<in_addr_t, int> >			_request_address; //map
+	std::vector<std::pair<in_addr_t, int> >			_request_address;
 	std::set<std::string>							_server_names;
 	std::map<int, std::string>						_error_pages;
 	std::set<std::string>							_default_pages;

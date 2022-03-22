@@ -3,6 +3,9 @@
 #include "ConfigParser.hpp"
 #include "utils.hpp"
 
+const ServerConfig* chooseServer(in_addr_t reqIP, int reqPort, std::string&
+reqServerName, const std::vector<ServerConfig>& config);
+
 void showInfo(ConfigParser& config) {
 
 	std::vector<ServerConfig> arrServer = config.getVectorOfServers();
@@ -121,5 +124,12 @@ int main(int argc, char **argv) {
 		std::cerr << e.what() << std::endl;
 		return 1;
 	}
-	showInfo(config);
+	std::string servName = std::string();
+	const ServerConfig* res = chooseServer(inet_addr("0.0.0.0"), 80,
+										  servName, config.getVectorOfServers());
+	if (res == NULL) {
+		std::cerr << "Server not found" << std::endl;
+		return 1;
+	}
+	std::cout << res->getRootOfServer() << std::endl;
 }
