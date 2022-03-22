@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 18:28:33 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/22 12:16:00 by msimon           ###   ########.fr       */
+/*   Updated: 2022/03/22 15:33:39 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	Content::read_file(std::string const &path)
 			throw (std::runtime_error("403"));
 	}
 	else
-		throw (std::runtime_error("403"));
+		throw (std::runtime_error("404"));
 }
 
 size_t Content::find(std::string const& str, size_t beg)

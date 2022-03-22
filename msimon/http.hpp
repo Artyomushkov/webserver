@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:01:20 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/22 11:34:25 by msimon           ###   ########.fr       */
+/*   Updated: 2022/03/22 15:28:14 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,12 @@ class	http
 //			ServerConfig*	config = NULL; // конфигурация нужного сервера
 //			Files			files; //файлы из тела post			
 		}	connect_t;
+		static void							init();
 		static int							run_request(int socket_fd/*, std::vector<ServerConfig> const &srvs_config*/);
 		static http::connect_t*	 			get_connect(int socket_fd);
 		static void							del_connect(int socket_fd);
-		static std::vector<http::connect_t>	chk_timer(time_t time_out);
-		static void							http_send(http::connect_t* conn); // сформировать и отправить данные клиенту
+		static std::vector<int>				chk_timer(time_t time_out);
+		static void							http_send(http::connect_t* conn);
 		static std::string					getTextCode(std::string http_code);
 
 //for string
@@ -57,7 +58,8 @@ class	http
 		http(http const &obj);
 		http	&operator=(http const &obj);
 
-		static std::map<int, http::connect_t>	_connections;
+		static std::map<int, http::connect_t>		_connections;
+		static std::map<std::string, std::string>	_code_error_text;
 };
 
 #endif

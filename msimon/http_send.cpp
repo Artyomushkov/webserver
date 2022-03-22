@@ -6,40 +6,11 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 12:03:01 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/22 11:38:57 by msimon           ###   ########.fr       */
+/*   Updated: 2022/03/22 15:06:46 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "http.hpp"
-
-std::string	http::getTextCode(std::string http_code) //Доделать функцию
-{
-	if (http_code[0] == '1')
-	{
-		
-	}
-	else if (http_code[0] == '2')
-	{
-		if (http_code[1] == '0')
-		{
-			if (http_code[2] =='0')
-				return ("OK");
-		}
-	}
-	else if (http_code[0] == '3')
-	{
-		
-	}
-	else if (http_code[0] == '4')
-	{
-		
-	}
-	else if (http_code[0] == '5')
-	{
-		
-	}
-	return ("");
-}
 
 std::string getType(std::string path) //Доделать функцию
 {
