@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:01:20 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/21 16:24:30 by msimon           ###   ########.fr       */
+/*   Updated: 2022/03/22 11:34:25 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include "httpc.hpp"
 # include "Head.hpp"
 # include "Request.hpp"
-//# include "Content.hpp"
+# include "Content.hpp"
 
 class	http
 {
@@ -46,6 +46,7 @@ class	http
 		static void							del_connect(int socket_fd);
 		static std::vector<http::connect_t>	chk_timer(time_t time_out);
 		static void							http_send(http::connect_t* conn); // сформировать и отправить данные клиенту
+		static std::string					getTextCode(std::string http_code);
 
 //for string
 		static void	get_down_to_str(std::string& str);

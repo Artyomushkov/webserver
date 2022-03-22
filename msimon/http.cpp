@@ -6,11 +6,13 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 07:29:49 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/21 15:30:34 by msimon           ###   ########.fr       */
+/*   Updated: 2022/03/22 11:05:37 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "http.hpp"
+
+std::map<int, http::connect_t>	http::_connections;
 
 int	http::run_request(int socket_fd/*, std::vector<ServerConfig> const &srvs_config*/)
 {

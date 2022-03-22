@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 18:28:33 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/21 15:56:41 by msimon           ###   ########.fr       */
+/*   Updated: 2022/03/22 12:16:00 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ size_t Content::find(std::string const& str, size_t beg)
 {
 	if (_len < str.length())
 		return std::string::npos;
-	for (size_t i = beg; i < _len - str.length(); i++)
+
+	for (size_t i = beg; i <= _len - str.length(); i++)
 		if (!std::memcmp(_content + i, str.data(), str.length()))
 			return i;
 	return std::string::npos;
@@ -132,9 +133,9 @@ void	Content::cut(size_t beg, size_t end)
 	try {n_content = new char[_len - (end - beg)];}
 	catch (std::exception &e) {throw (std::runtime_error("500"));}
 	std::memcpy(n_content, _content, beg);
-	std::memcpy(n_content + end, _content, _len - end);
+	std::memcpy(n_content + beg, _content + end, _len - end);
 	delete[] _content;
-	_len = end - beg;
+	_len = _len - (end - beg);
 	_content = n_content;
 }
 
@@ -144,4 +145,10 @@ void	Content::clean()
 		delete[] _content;
 	_content = NULL;
 	_len = 0;
+}
+
+void	Content::print()
+{
+	for (size_t i = 0; i < _len; i++)
+		std::cout << _content[i];
 }

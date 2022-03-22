@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 08:53:28 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/21 16:23:52 by msimon           ###   ########.fr       */
+/*   Updated: 2022/03/22 10:36:26 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define REQUEST_HPP
 
 # include <string>
-# include "http.hpp"
 # include "Content.hpp"
 
 class	Request
@@ -35,7 +34,5 @@ class	Request
 		void	parse_line_head(std::string str);
 //		void	select_server_config(Response& resp, std::vector<ServerConfig> const &configs);
 };
-
-# include "http.hpp"
 
 #endif

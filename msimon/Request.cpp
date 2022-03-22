@@ -6,10 +6,11 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 09:08:21 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/21 15:58:04 by msimon           ###   ########.fr       */
+/*   Updated: 2022/03/22 12:01:27 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "http.hpp"
 #include "Request.hpp"
 
 int		Request::parse_head(/*std::vector<ServerConfig> const &srvs_config*/)
@@ -43,7 +44,8 @@ void	Request::parse_first_line_head(std::string str)
 	conn->head.add("method", str.substr(0, pos));
 	if (pos == std::string::npos)
 		return ;
-	pos = str.find(" ", pos + 1);
+	str = str.substr(pos + 1);
+	pos = str.find(" ");
 	uri = str.substr(0, pos);
 	pos_get_data = uri.find("?");
 	conn->head.add("uri", uri.substr(0, pos_get_data));
@@ -72,5 +74,12 @@ void	Request::parse_line_head(std::string str)
 //Разобрать тело записать файлы и переменные (если есть)
 void	Request::parse()
 {
+	http::connect_t*	conn = (http::connect_t*)this->connect;
+
+	conn->head.print();
+	std::cout << "GET VAR: " << conn->get_vars << "\n";
+	std::cout << "HTTP BODY: ";
+	content.print();
+	std::cout << "###\n";	
 	//
 }
