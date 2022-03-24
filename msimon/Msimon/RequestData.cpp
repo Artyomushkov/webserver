@@ -1,37 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Head.cpp                                           :+:      :+:    :+:   */
+/*   RequestData.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 11:58:30 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/22 12:01:16 by msimon           ###   ########.fr       */
+/*   Updated: 2022/03/24 12:00:07 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Head.hpp"
+#include "RequestData.hpp"
 
-void		Head::add(std::string name, std::string val)
+void	RequestData::add(std::string name, std::string val)
 {
-	_head.insert(std::pair<std::string, std::string> (name, val));
+	_data.insert(std::pair<std::string, std::string> (name, val));
 }
 
-std::string	Head::get(std::string name)
+std::string	RequestData::get(std::string name)
 {
 	std::map<std::string, std::string>::iterator	it;
 
-	it = _head.find(name);
-	if (it != _head.end())
+	it = _data.find(name);
+	if (it != _data.end())
 		return it->second;
 	return std::string("");
 }
 
-void	Head::print()
+void	RequestData::print()
 {
-	std::map<std::string, std::string>::iterator	it = _head.begin();
+	std::map<std::string, std::string>::iterator	it = _data.begin();
 	
-	while (it != _head.end())
+	while (it != _data.end())
 	{
 		std::cout << it->first << ": " << it->second << "\n";
 		it++;
