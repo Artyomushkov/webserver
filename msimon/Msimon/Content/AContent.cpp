@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 18:28:33 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/24 09:44:32 by msimon           ###   ########.fr       */
+/*   Updated: 2022/03/26 08:29:14 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ AContent::~AContent()
 		delete[] _content;
 }
 
-AContent::AContent(AContent const &obj)
+AContent::AContent(AContent const &obj): _content(NULL), _len(0)
 {
 	*this = obj;
 }
@@ -28,9 +28,22 @@ AContent	&AContent::operator=(AContent const &obj)
 	{
 		if (_content)
 			delete[] _content;
-		_content = NULL;
-		_len = 0;
-		push_back(obj.get_content(), obj.len());
+		if (obj.len())
+		{
+			try {_content = new char[obj.len()];}
+			catch (std::exception &e) {
+				_content = NULL;
+				_len = 0;
+				throw (std::runtime_error("500"));
+			}
+			_len = obj.len();
+			std::memcpy(_content, obj.get_content(), _len);
+		}
+		else
+		{
+			_content = NULL;
+			_len = 0;
+		}
 	}
 	return (*this);
 }
@@ -54,7 +67,8 @@ void	AContent::cut(size_t beg, size_t end)
 		return ;
 	if (end - beg == _len)
 	{
-		delete[] _content;
+		if (_content)
+		 	delete[] _content;
 		_content = NULL;
 		_len = 0;
 		return ;
@@ -65,7 +79,8 @@ void	AContent::cut(size_t beg, size_t end)
 	catch (std::exception &e) {throw (std::runtime_error("500"));}
 	std::memcpy(n_content, _content, beg);
 	std::memcpy(n_content + beg, _content + end, _len - end);
-	delete[] _content;
+	if (_content)
+		delete[] _content;
 	_len = _len - (end - beg);
 	_content = n_content;
 }
@@ -73,7 +88,7 @@ void	AContent::cut(size_t beg, size_t end)
 void	AContent::clean()
 {
 	if (_content)
-		delete[] _content;
+	 	delete[] _content;
 	_content = NULL;
 	_len = 0;
 }
@@ -93,7 +108,8 @@ void	AContent::push_back(char const* src, size_t const len)
 	std::memcpy(n_content, _content, _len);
 	std::memcpy(n_content + _len, src, len);
 	_len = _len + len;
-	delete[] _content;
+	if (_content)
+		delete[] _content;
 	_content = n_content;
 }
 
@@ -106,7 +122,8 @@ void	AContent::push_back(std::string const& str)
 	std::memcpy(n_content, _content, _len);
 	std::memcpy(n_content + _len, str.data(), str.length());
 	_len = _len + str.length();
-	delete[] _content;
+	if (_content)
+		delete[] _content;
 	_content = n_content;
 }
 
@@ -119,7 +136,8 @@ void	AContent::push_front(char const* src, size_t const len)
 	std::memcpy(n_content, src, len);
 	std::memcpy(n_content +len, _content, _len);
 	_len = _len + len;
-	delete[] _content;
+	if (_content)
+		delete[] _content;
 	_content = n_content;	
 }
 
@@ -132,6 +150,7 @@ void	AContent::push_front(std::string const& str)
 	std::memcpy(n_content, str.data(), str.length());
 	std::memcpy(n_content + str.length(), _content, _len);
 	_len = _len + str.length();
-	delete[] _content;
+	if (_content)
+		delete[] _content;
 	_content = n_content;	
 }

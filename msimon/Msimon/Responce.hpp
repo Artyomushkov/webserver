@@ -6,19 +6,22 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 12:14:46 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/24 21:01:46 by msimon           ###   ########.fr       */
+/*   Updated: 2022/03/26 09:25:09 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WEBSERV_RESPONCE_HPP
 # define WEBSERV_RESPONCE_HPP
 
-#include <sys/types.h>
-#include <sys/socket.h>
+# include <sys/types.h>
+# include <sys/socket.h>
 # include <string>
 # include <map>
+# include <exception>
 # include "Connect.hpp"
 # include "ContentFile.hpp"
+
+# define SERVER_NAME "JUM webserv/0.0.1"
 
 class	Responce
 {
@@ -30,7 +33,6 @@ class	Responce
 
 	private:
 		std::map<std::string, std::string>	_code_error_text;		
-		std::string							getTextCode(std::string const& http_code);
 		std::string							getType(std::string const& path);
 };
 

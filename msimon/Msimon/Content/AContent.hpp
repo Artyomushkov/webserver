@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 18:05:58 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/24 21:02:15 by msimon           ###   ########.fr       */
+/*   Updated: 2022/03/26 08:26:49 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <string>
 # include <cstring>
 # include <fstream>
+# include <exception>
 
 class	AContent
 {

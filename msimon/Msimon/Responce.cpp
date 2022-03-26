@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 15:04:37 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/24 17:03:50 by msimon           ###   ########.fr       */
+/*   Updated: 2022/03/26 09:23:11 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,6 @@ Responce::Responce()
 	_code_error_text["505"] = "HTTP Version Not Supported";
 }
 
-std::string	Responce::getTextCode(std::string const& http_code)
-{
-	std::map<std::string, std::string>::iterator	it = _code_error_text.find(http_code);
-
-	if (it != _code_error_text.end())
-		return it->second;
-	return ("");
-}
-
 std::string	Responce::getType(std::string const& path)
 {
 	size_t		pos = path.find(".");
@@ -99,8 +90,8 @@ void	Responce::sending(connect_t* conn)
 	ContentFile	content;
 	
 	content.read("." + conn->dataReq.get("uri"));
-	head = "HTTP/1.1 200 " + getTextCode("200") + "\r\n";
-	head += "SERVER_NAME";
+	head = "HTTP/1.1 200 " + _code_error_text.find("200")->second + "\r\n";
+	head += "Server: " + std::string(SERVER_NAME) + "\r\n";
 	head += "Connection: keep-alive\r\n";
 	head += "Content-Type: " + getType(conn->dataReq.get("uri")) + "\r\n";
 	if (content.len())
@@ -115,7 +106,16 @@ void	Responce::sending(connect_t* conn)
 
 void	Responce::sending(connect_t* conn, std::string const& http_code)
 {
-	std::string	content = std::string("HTTP/1.1 ") + http_code + std::string(" ") + getTextCode(http_code) + std::string("\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n<h2>ERROR</h2>");
-	send(conn->fds, content.data(), content.length(), 0);
-	send(conn->fds, "\0", 1, 0);
+	try {
+		std::map<std::string, std::string>::iterator it = _code_error_text.find(http_code);
+
+		if (it == _code_error_text.end())
+			it = _code_error_text.find("500");
+		std::string	content = std::string("HTTP/1.1 ") + http_code + std::string(" ") + it->second + std::string("\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n<h2>ERROR</h2>");
+		send(conn->fds, content.data(), content.length(), 0);
+		send(conn->fds, "\0", 1, 0);
+	}
+	catch (std::exception &e) {
+		std::cerr << "failed to send error to client\n";
+	}
 }
