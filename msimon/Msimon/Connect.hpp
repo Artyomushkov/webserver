@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Head.hpp                                           :+:      :+:    :+:   */
+/*   Connect.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/21 11:51:57 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/22 11:56:12 by msimon           ###   ########.fr       */
+/*   Created: 2022/03/23 18:44:34 by msimon            #+#    #+#             */
+/*   Updated: 2022/03/24 21:01:21 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HEAD_HPP
-# define HEAD_HPP
+#ifndef WEBSERV_CONNECT_HPP
+# define WEBSERV_CONNECT_HPP
 
-# include <iostream>
-# include <string>
-# include <map>
+# include <ctime>
+# include "RequestData.hpp"
+# include "ServerConfig.hpp"
+# include "ContentSocket.hpp"
 
-class Head
-{
-	public:
-		Head() {};
-		~Head() {};
-		void		add(std::string name, std::string val);
-		std::string	get(std::string name);
-		void		print();
-
-	private:
-//		Head(Head const &obj);
-//		Head	&operator=(Head const &obj);
-		std::map<std::string, std::string> _head;
-};
+typedef	struct connect_s {
+	connect_s(int _fds): fds(_fds), timeReq(time(NULL)), statusReq(0), config(NULL) {};
+	int				fds;
+	time_t			timeReq;
+	int				statusReq;
+	ServerConfig*	config;
+	ContentSocket	contentReq;
+	RequestData		dataReq;
+}	connect_t;
 
 #endif

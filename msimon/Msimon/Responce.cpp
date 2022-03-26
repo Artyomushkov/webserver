@@ -1,104 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   http.cpp                                           :+:      :+:    :+:   */
+/*   Responce.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/19 07:29:49 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/22 16:14:08 by msimon           ###   ########.fr       */
+/*   Created: 2022/03/24 15:04:37 by msimon            #+#    #+#             */
+/*   Updated: 2022/03/26 09:23:11 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "http.hpp"
+#include "Responce.hpp"
 
-std::map<int, http::connect_t>	http::_connections;
-std::map<std::string, std::string>	http::_code_error_text;
-
-int	http::run_request(int socket_fd/*, std::vector<ServerConfig> const &srvs_config*/)
-{
-	http::connect_t*	conn = get_connect(socket_fd);
-
-	if (!conn)
-	{
-		_connections.insert(std::pair<int, http::connect_t> (socket_fd, connect_s(socket_fd)));
-		conn = get_connect(socket_fd);
-		if (!conn)
-		{
-			httpc::httpc_send(socket_fd, "500");
-			return 1;
-		}
-		conn->request.connect = conn;
-	}
-	try {
-		conn->request.content.read_socket(socket_fd);
-		conn->time_req = time(NULL);
-		if (conn->status == 0)
-		{
-			if (conn->request.parse_head(/*std::vector<ServerConfig> const &srvs_config*/))
-				conn->status = 1;
-			else
-				return 0;
-		}
-		if (conn->status == 1)
-		{
-			if ((size_t)std::atol(conn->head.get("content-length").data()) <= conn->request.content.len())
-				conn->status = 2;
-			else
-				return 0;	
-		}
-		conn->request.parse();
-		http::http_send(conn);
-	}
-    catch (std::exception &e)
-	{
-		httpc::httpc_send(socket_fd, e.what());
-    }
-	del_connect(socket_fd);
-	return 1;
-}
-
-http::connect_t*	http::get_connect(int socket_fd)
-{
-	std::map<int, http::connect_t>::iterator	it = _connections.find(socket_fd);
-
-	if (it != _connections.end())
-		return &(it->second);
-	return NULL;
-}
-
-std::vector<int>	http::chk_timer(time_t time_out)
-{
-	std::vector<int>				res;
-	std::map<int, http::connect_t>::iterator	it = _connections.begin();
-	time_t										now = time(NULL);
-
-	while (it != _connections.end())
-	{
-		if (now - it->second.time_req > time_out)
-			res.push_back(it->first);
-		it++;
-	}
-	return res;
-}
-
-void	http::del_connect(int socket_fd)
-{
-	std::map<int, http::connect_t>::iterator	it;
-
-	it = _connections.find(socket_fd);
-	if (it != _connections.end())
-		_connections.erase(it);
-}
-
-void	http::get_down_to_str(std::string& str)
-{
-	for (size_t i = 0; i < str.length(); i++)
-		if (str[i] >= 'A' && str[i] <='Z')
-			str[i] = str[i] + 32;
-}
-
-void	http::init()
+Responce::Responce()
 {
 	_code_error_text["100"] = "Continue";
 	_code_error_text["101"] = "Switching Protocol";
@@ -146,11 +60,62 @@ void	http::init()
 	_code_error_text["505"] = "HTTP Version Not Supported";
 }
 
-std::string	http::getTextCode(std::string http_code)
+std::string	Responce::getType(std::string const& path)
 {
-	std::map<std::string, std::string>::iterator	it = _code_error_text.find(http_code);
+	size_t		pos = path.find(".");
+	size_t		i;
+	std::string	ext;
 
-	if (it != _code_error_text.end())
-		return it->second;
-	return ("");
+	if (pos == std::string::npos)
+		return ("");
+	while (1)
+	{
+		i = path.find(".", pos + 1);
+		if (i != std::string::npos)
+			pos = i;
+		else
+			break;
+	}
+	ext = path.substr(pos + 1);
+	if (ext == "html")
+		return "text/html; charset=UTF-8";
+	else if (ext == "jpg" || ext == "jpeg" || ext == "ico")
+		return "image/" + ext;
+	return "";
+}
+
+void	Responce::sending(connect_t* conn)
+{
+	std::string	head;
+	ContentFile	content;
+	
+	content.read("." + conn->dataReq.get("uri"));
+	head = "HTTP/1.1 200 " + _code_error_text.find("200")->second + "\r\n";
+	head += "Server: " + std::string(SERVER_NAME) + "\r\n";
+	head += "Connection: keep-alive\r\n";
+	head += "Content-Type: " + getType(conn->dataReq.get("uri")) + "\r\n";
+	if (content.len())
+		head += "Content-Length: " + std::to_string(content.len()) + "\r\n";
+	head +="\r\n";
+
+	send(conn->fds, head.data(), head.length(), 0);
+	if (content.len())
+		send(conn->fds, content.get_content(), content.len(), 0);
+	send(conn->fds, "\0" , 1 , 0);
+}
+
+void	Responce::sending(connect_t* conn, std::string const& http_code)
+{
+	try {
+		std::map<std::string, std::string>::iterator it = _code_error_text.find(http_code);
+
+		if (it == _code_error_text.end())
+			it = _code_error_text.find("500");
+		std::string	content = std::string("HTTP/1.1 ") + http_code + std::string(" ") + it->second + std::string("\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n<h2>ERROR</h2>");
+		send(conn->fds, content.data(), content.length(), 0);
+		send(conn->fds, "\0", 1, 0);
+	}
+	catch (std::exception &e) {
+		std::cerr << "failed to send error to client\n";
+	}
 }

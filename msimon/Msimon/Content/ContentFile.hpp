@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   httpc.hpp                                          :+:      :+:    :+:   */
+/*   ContentFile.hpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/21 10:27:31 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/21 15:57:13 by msimon           ###   ########.fr       */
+/*   Created: 2022/03/24 11:01:03 by msimon            #+#    #+#             */
+/*   Updated: 2022/03/24 21:02:45 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HTTPC_HPP
-# define HTTPC_HPP
+#ifndef WEBSERV_CONTENTFILE_HPP
+# define WEBSERV_CONTENTFILE_HPP
 
-# include <sys/types.h>
-# include <sys/socket.h>
-# include <string>
-# include "http.hpp"
+# include "AContent.hpp"
 
-class httpc
+class ContentFile: public AContent
 {
 	public:
-		~httpc() {};
-		static void	httpc_send(int fd, std::string code);
-	
+		virtual void	read(std::string const &path);
+
 	private:
-		httpc();
-		httpc(httpc const &obj);
-		httpc	&operator=(httpc const &obj);
+		virtual void	read(int fd) {(void) fd;};
 };
 
 #endif
