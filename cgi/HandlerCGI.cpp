@@ -56,37 +56,44 @@ char** HandlerCGI::form_env(std::vector <std::string>& arrEnv) {
 	return env;
 }
 
-void HandlerCGI::forkCGI(int fdIn, int fdOut) {
+void HandlerCGI::forkCGI(int fdIn[2], int fdOut[2]) {
 
-	if (dup2(fdIn, 0) < 0) {
-		std::cerr << "dup error" << std::endl;
-		exit(1);
+	if (proc == 0) {
+		if ((dup2(fdIn[0], 0)) < 0) {
+			std::cerr << "dup error" << std::endl;
+			exit(1);
+		}
+		close(fdIn[0]);
+		close(fdOut[0]);
+		if ((dup2(fdOut[1], 1)) < 0) {
+			std::cerr << "dup error 2" << std::endl;
+			exit(1);
+		}
+		close(fdOut[1]);
+		char* args[3];
+		args[0] = "/usr/local/bin/python3";
+		args[1] = "/Users/jhizdahr/CLionProjects/webserv/cgi_test/test.py";
+		args[2] = NULL;
+		int n = execve(args[0], args, env);
+		if (n < 0) {
+			std::cerr << "execve error" << std::endl;
+			exit(1);
+		}
+		exit(0);
 	}
-	close(fdIn);
-	if ((dup2(fdOut, 1)) < 0) {
-		std::cerr << "dup error" << std::endl;
-		exit(1);
-	}
-	close(fdOut);
-	char* args[3];
-	args[0] = "/usr/local/bin/python3"; //get form config
-	args[1] = "/Users/jhizdahr/CLionProjects/webserv/cgi/test.py"; //get
-	// from somewhere
-	args[2] = NULL;
-	int n = execve(args[0], args, env);
-	if (n < 0) {
-		std::cerr << "execve error" << std::endl;
-	}
-	exit(0);
 }
 
 Content HandlerCGI::execCGI() {
 
 	std::vector<std::string> envVec = init_env();
 	char** env = form_env(envVec);
-	FILE* fileOut = fopen(".tmp", "w+");
-	int fdOut = fileno(fileOut);
-	int fdIn = open("request_body", O_RDONLY); //post body;
+	int fdIn[2];
+	pipe(fdIn);
+	int fdOut[2];
+	pipe(fdOut);
+	std::string str = std::string("blablabla");
+	write(fdIn[1], str.c_str(), 10); //write there post body
+	close(fdIn[1]);
 	pid_t proc = fork();
 	if (proc == -1) {
 		std::cerr << "fork crashed" << std::endl;
