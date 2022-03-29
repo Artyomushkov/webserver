@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <set>
+#include <map>
 #include <string>
 #include <fstream>
 #include "utils.hpp"
@@ -11,24 +12,26 @@
 class Route {
 
 private:
-	std::string				_route;
-	std::set<std::string>	_default_pages;
-	std::set<std::string>	_http_methods;
-	std::string				_redirection;
-	std::string				_root;
-	bool 					_autoindex;
-	std::string				_upload_dir;
-	std::string 			_cgi;
+	std::string					_route;
+	std::set<std::string>		_default_pages;
+	std::set<std::string>		_http_methods;
+	std::string					_redirection;
+	std::string					_root;
+	bool 						_autoindex;
+	std::string					_upload_dir;
+	std::string					_tmp_files;
+	std::string 				_cgi;
+	std::map<int, std::string>	_error_pages;
 
 private:
 	Route();
 
 public:
 	Route(std::string route, std::string& root, std::set<std::string>&
-	        default_pages);
+	        default_pages, std::string& tmp_files, std::map<int,
+	                std::string>& error_pages);
 	~Route();
 	void	parseRoute(std::ifstream& file, std::vector<std::string>& command);
-	void	showInfo() const;
 	const std::string& getRoute() const;
 	const std::set<std::string>& getDefaultPages() const;
 	const std::set<std::string>& getHTTPmethods() const;
@@ -36,7 +39,9 @@ public:
 	bool getAutoindex() const;
 	const std::string& getRoot() const;
 	const std::string& getUploadDirectory() const;
+	const std::string& getTmpFilesDir() const;
 	const std::string& getCGI() const;
+	const std::map<int, std::string> getErrorPages() const;
 
 
 private:

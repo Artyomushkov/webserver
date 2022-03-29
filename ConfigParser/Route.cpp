@@ -1,7 +1,8 @@
 #include "Route.hpp"
 
 Route:: Route(std::string route, std::string& root, std::set<std::string>&
-        default_pages) :
+        default_pages, std::string& tmp_files, std::map<int, std::string>&
+                error_pages) :
 			_route(route),
 			_default_pages(default_pages),
 			_http_methods(),
@@ -9,11 +10,15 @@ Route:: Route(std::string route, std::string& root, std::set<std::string>&
 			_root(root),
 			_autoindex(false),
 			_upload_dir("/downloads"),
+			_tmp_files(tmp_files),
+			_error_pages(error_pages),
 			_cgi() {
 
 		_http_methods.insert("GET");
 		_http_methods.insert("POST");
 		_http_methods.insert("DELETE");
+		_http_methods.insert("PUT");
+		_http_methods.insert("HEAD");
 }
 
 Route:: ~Route() {}
@@ -44,7 +49,8 @@ void Route::parseHTTPmethods(std::vector<std::string>& command) {
 	_http_methods.clear();
 	for (size_t i = 1; i < command.size(); ++i) {
 		if (command[i] != "GET" && command[i] != "POST" &&
-			command[i] != "DELETE")
+			command[i] != "DELETE" && command[i] != "PUT" && command[i] !=
+			"HEAD")
 			throw std::logic_error("Invalid http method in config");
 		_http_methods.insert(command[i]);
 	}
@@ -210,28 +216,14 @@ const std::string& Route::getUploadDirectory() const {
 	return _upload_dir;
 }
 
+const std::string& Route::getTmpFilesDir() const {
+	return _tmp_files;
+}
+
 const std::string& Route::getCGI() const {
 	return _cgi;
 }
 
-void Route::showInfo() const {
-
-	std::cout << "LOCATION " << std::endl;
-	std::cout << "route " << _route << std::endl;
-	std::cout << "default pages ";
-	for (std::set<std::string>::iterator
-				 it = _default_pages.begin(); it != _default_pages.end(); ++it) {
-		std::cout <<  *it << " ";
-	}
-	std::cout << std::endl;
-	std::cout << "http methods ";
-	for (std::set<std::string>::iterator
-				 it = _http_methods.begin(); it != _http_methods.end(); ++it) {
-		std::cout <<  *it << " ";
-	}
-	std::cout << std::endl;
-	std::cout << "redirection " << _redirection << std::endl;
-	std::cout << "root " << _root << std::endl;
-	std::cout << "autoindex " << _autoindex << std::endl;
-	std::cout << "upload dir " << _upload_dir << std::endl;
+const std::map<int, std::string> Route::getErrorPages() const {
+	return _error_pages;
 }

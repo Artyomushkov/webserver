@@ -19,7 +19,6 @@ public:
 	~ConfigParser();
 
 	void ParsingProcess();
-	void showInfo() const;
 	const std::vector<ServerConfig>& getVectorOfServers() const;
 
 private:

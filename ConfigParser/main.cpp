@@ -2,9 +2,7 @@
 #include "ServerConfig.hpp"
 #include "ConfigParser.hpp"
 #include "utils.hpp"
-
-const ServerConfig* chooseServer(in_addr_t reqIP, int reqPort, const
-std::string& reqServerName, const std::vector<ServerConfig>& config);
+#include "GetServer.hpp"
 
 void showInfo(ConfigParser& config) {
 
@@ -31,20 +29,12 @@ void showInfo(ConfigParser& config) {
 		std::cout << std::endl;
 
 		//Error pages
+		std::cout << "error pages: " << std::endl;
 		std::map<int, std::string> errorPages = it->getErrorPages();
-		for (std::map<int, std::string>::const_iterator it = errorPages.begin();
-		it != errorPages.end(); ++it) {
-			std::cout << it->first << " " << it->second << std::endl;
+		for (std::map<int, std::string>::const_iterator it2 = errorPages.begin();
+			 it2 != errorPages.end(); ++it2) {
+			std::cout << it2->first << " " << it2->second << std::endl;
 		}
-
-		//Default pages (index)
-		std::set<std::string> defaultPages = it->getDefaultPages();
-		std::cout << "default pages ";
-		for (std::set<std::string>::iterator
-		it = defaultPages.begin(); it != defaultPages.end(); ++it) {
-			std::cout <<  *it << " ";
-		}
-		std::cout << std::endl;
 
 		//Server root
 		std::string root = it->getRootOfServer();
@@ -96,6 +86,18 @@ void showInfo(ConfigParser& config) {
 			std::cout << "upload directory " << iter->getUploadDirectory() <<
 			std::endl;
 
+			//Tmp directory (string)
+			std::cout << "tmp files " << iter->getTmpFilesDir() <<
+					  std::endl;
+
+			//Error pages
+			std::cout << "error pages: " << std::endl;
+			std::map<int, std::string> errorPages = iter->getErrorPages();
+			for (std::map<int, std::string>::const_iterator it2 =
+					errorPages.begin(); it2 != errorPages.end(); ++it2) {
+				std::cout << it2->first << " " << it2->second << std::endl;
+			}
+
 			//CGI (string)
 			std::cout << "CGI " << iter->getCGI() << std::endl;
 
@@ -140,5 +142,5 @@ int main(int argc, char **argv) {
 	const Route* serverRoute = server->chooseRoute(partURI);
 	std::cout << "chosen route: " << serverRoute->getRoute() << std::endl;
 	//чтобы
-	// проверить правильный выбор маршрута
+	// проверить правильный выбор маршрута*/
 }

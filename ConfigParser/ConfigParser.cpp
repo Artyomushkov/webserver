@@ -62,13 +62,3 @@ void ConfigParser::ParsingProcess() {
 const std::vector<ServerConfig>& ConfigParser::getVectorOfServers() const {
 	return _servers_config;
 }
-
-void ConfigParser::showInfo() const {
-
-	std::vector<ServerConfig> arrServers = getVectorOfServers();
-	for (std::vector<ServerConfig>::iterator it = arrServers.begin();
-	it != arrServers.end(); ++it) {
-		it->showInfo();
-		std::cout << std::endl;
-	}
-}
