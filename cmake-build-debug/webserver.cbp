@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="webserver"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/Users/a1234/Desktop/webserver/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/Users/a1234/Desktop/webserver/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/Users/a1234/Desktop/webserver/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="webserver">
+				<Option output="/Users/a1234/Desktop/webserver/cmake-build-debug/webserver" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/a1234/Desktop/webserver/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/13.1.6/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 webserver"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="webserver/fast">
+				<Option output="/Users/a1234/Desktop/webserver/cmake-build-debug/webserver" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/a1234/Desktop/webserver/cmake-build-debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/13.1.6/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 webserver/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/a1234/Desktop/webserver/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/Users/a1234/Desktop/webserver/http/Msimon/Connections.cpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/http/Msimon/Connections.hpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/http/Msimon/Content/AContent.cpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/http/Msimon/Content/AContent.hpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/http/Msimon/Content/ContentFile.cpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/http/Msimon/Content/ContentFile.hpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/http/Msimon/Content/ContentSocket.cpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/http/Msimon/Content/ContentSocket.hpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/http/Msimon/Request.cpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/http/Msimon/Request.hpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/http/Msimon/RequestData.cpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/http/Msimon/RequestData.hpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/http/Msimon/Responce.cpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/http/Msimon/Responce.hpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/main.cpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/parser/ConfigParser.cpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/parser/ConfigParser.hpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/parser/Route.cpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/parser/Route.hpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/parser/ServerConfig.cpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/parser/ServerConfig.hpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/parser/utils.cpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/parser/utils.hpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/server/RequestHandler.cpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/server/RequestHandler.hpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/server/ServerManager.cpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/server/ServerManager.hpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/server/Socket.cpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/server/Socket.hpp">
+			<Option target="webserver"/>
+		</Unit>
+		<Unit filename="/Users/a1234/Desktop/webserver/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
