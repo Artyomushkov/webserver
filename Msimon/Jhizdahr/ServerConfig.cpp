@@ -7,15 +7,13 @@ ServerConfig::ServerConfig() :
 	_default_pages(),
 	_root("/www"),
 	_limit_body_size(1000000),
-	_tmp_files("/tmp"),
 	_routes() {
 
 	_request_address.push_back(std::pair<in_addr_t, int>
 	        (inet_addr("0.0.0.0"), 80));
 	_default_pages.insert("index.html");
 	_server_names.insert(std::string());
-	_routes.push_back(Route("/", _root, _default_pages, _tmp_files,
-							_error_pages));
+	_routes.push_back(Route(_root, _default_pages, _error_pages));
 }
 
 ServerConfig::~ServerConfig() {}
@@ -111,16 +109,6 @@ void ServerConfig::parseClientMaxBodySize(
 	_limit_body_size = num;
 }
 
-void ServerConfig::parseTmpDir(std::vector <std::string>& command) {
-
-	if (command.size() != 2)
-		throw std::logic_error("Config syntax error in tmp_files");
-	if (command[1][0] != '/')
-		throw std::logic_error("Config syntax error in tmp_files: tmp_files "
-							   "argument should begin with /");
-	_tmp_files = command[1];
-}
-
 void ServerConfig::parseRoutePreporation(std::ifstream& file,
 											std::vector<std::string>& command) {
 
@@ -130,12 +118,13 @@ void ServerConfig::parseRoutePreporation(std::ifstream& file,
 		throw std::logic_error("Syntax error in location route");
 	if (command[1] != "/")
 		_routes.push_back(Route(command[1], _root, _default_pages,
-								_tmp_files, _error_pages));
+								_error_pages));
 	try {
 		if (command[1] == "/")
-			_routes.front().parseRoute(file, command);
+			_routes.front().parseRouteInit(file, command, _root,
+										   _default_pages, _error_pages);
 		else
-			_routes.back().parseRoute(file, command);
+			_routes.back().parseRouteInit(file, command, _root);
 	}
 	catch (std::logic_error& e) {
 		throw;
@@ -202,14 +191,6 @@ void ServerConfig::parseServer(std::ifstream& file) {
 				throw;
 			}
 		}
-		else if (command[0] == "tmp_files") {
-			try {
-				parseTmpDir(command);
-			}
-			catch (std::logic_error& e) {
-				throw;
-			}
-		}
 		else if (command[0] == "location") {
 			try {
 				parseRoutePreporation(file, command);
@@ -253,34 +234,4 @@ int ServerConfig::getBodySizeLimit() const {
 
 const std::vector<Route>& ServerConfig::getServerRoutes() const {
 	return _routes;
-}
-
-const Route* ServerConfig::chooseRoute(const std::string& urlRoute) const {
-
-	const std::vector<Route>& vecRoute = getServerRoutes();
-	const Route* res = &(vecRoute.front());
-	if (urlRoute.empty() || urlRoute == "/")
-		return res;
-	size_t maxDirs = 0;
-	std::vector<std::string> urlParsed = strSplitBySlash(urlRoute);
-	for (std::vector<Route>::const_iterator it = vecRoute.begin(); it !=
-	vecRoute.end(); ++it) {
-		std::vector<std::string> routeParsed = strSplitBySlash(it->getRoute());
-		size_t i = 0;
-		while (i < routeParsed.size() && i < urlParsed.size()) {
-			if (routeParsed[i] == urlParsed[i])
-				++i;
-			else
-				break;
-		}
-		if (i > maxDirs && i == routeParsed.size()) {
-			maxDirs = i;
-			res = &(*it);
-		}
-		routeParsed.clear();
-	}
-	return res;
-}
-const std::map<int, std::string>& ServerConfig::getErrorPages() const {
-	return _error_pages;
 }
