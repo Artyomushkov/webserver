@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 12:14:46 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/31 21:26:40 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/02 09:31:03 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ class	Responce
 	private:
 		std::map<std::string, std::string>	_code_error_text;		
 		std::string							getType(std::string const& path);
-		void								delete_tmp_files(connect_t* conn);
 };
 
 #endif

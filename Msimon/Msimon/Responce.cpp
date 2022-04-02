@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 15:04:37 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/31 21:45:55 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/02 09:31:33 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ void	Responce::sending(connect_t* conn)
 		if (content.len())
 			send(conn->fds, content.get_content(), content.len(), 0);
 		send(conn->fds, "\0" , 1 , 0);
-		delete_tmp_files(conn);
 	}
 	else
 		throw (std::runtime_error("503"));		
@@ -113,7 +112,6 @@ void	Responce::sending(connect_t* conn)
 
 void	Responce::sending(connect_t* conn, std::string const& http_code)
 {
-	delete_tmp_files(conn);
 	try {
 		std::map<std::string, std::string>::iterator it = _code_error_text.find(http_code);
 
@@ -126,10 +124,4 @@ void	Responce::sending(connect_t* conn, std::string const& http_code)
 	catch (std::exception &e) {
 		std::cerr << "failed to send error to client\n";
 	}
-}
-
-void	Responce::delete_tmp_files(connect_t* conn)
-{
-	if (conn)
-		conn->files.del_files();
 }

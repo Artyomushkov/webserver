@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:37:26 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/28 10:33:07 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/02 08:45:14 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,24 @@ int	Connections::request(int fds, std::vector<ServerConfig> const &srvs_config)
 		}
 		if (conn->statusReq == 1)
 		{
-			if ((size_t)std::atol(conn->head.get("content-length").data()) <= conn->contentReq.len())
+			if (conn->head.get("transfer-encoding") == "chunked")
+			{
+				if (chunked_decoding(conn))
+					conn->statusReq = 2;
+				else
+					return 0;
+			}
+			else if ((size_t)std::atol(conn->head.get("content-length").data()) <= conn->contentReq.len())
 				conn->statusReq = 2;
 			else
 				return 0;	
 		}
-		Request::parse(conn);
 	}
 	catch (std::exception &e) {
 		Responce::sending(conn, e.what());
 		delConnect(fds);
 		return -1;
 	}
-
 	return 1;
 }
 
