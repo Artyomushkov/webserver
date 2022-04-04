@@ -134,9 +134,9 @@ void Route::parseRouteInit(std::ifstream& file,
 
 	std::string route = command[1];
 	if (route[route.length() - 1] == '/')
-		_root += route.substr(0, route.length() - 1);
+		_root = root + route.substr(0, route.length() - 1);
 	else
-		_root += route;
+		_root = root + route;
 	try {
 		parseBrackets(file, command);
 	}
@@ -159,9 +159,9 @@ void Route::parseRouteInit(std::ifstream& file,
 
 	std::string route = command[1];
 	if (route[route.length() - 1] == '/')
-		_root += route.substr(0, route.length() - 1);
+		_root = root + route.substr(0, route.length() - 1);
 	else
-		_root += route;
+		_root = root + route;
 	try {
 		parseBrackets(file, command);
 	}
