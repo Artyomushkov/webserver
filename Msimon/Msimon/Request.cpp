@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 09:08:21 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/02 09:27:22 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/02 11:12:11 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,25 +65,15 @@ void	Request::parse_first_line_head(connect_t* conn, std::string str)
 	conn->head.add("http", str.substr(pos + 1));
 }
 
-void	Request::get_down_to_str(std::string& str)
-{
-	for (size_t i = 0; i < str.length(); i++)
-		if (str[i] >= 'A' && str[i] <='Z')
-			str[i] = str[i] + 32;
-}
-
 void	Request::parse_line_head(connect_t* conn, std::string str)
 {
-	std::string			name;
 	size_t				pos;
 
 	pos = str.find(": ");
-	name = str.substr(0, pos);
-	get_down_to_str(name);
 	if (pos != std::string::npos)
-		conn->head.add(name, str.substr(pos + 2));
+		conn->head.add(connect_t::down_str(str.substr(0, pos)), str.substr(pos + 2));
 	else
-		conn->head.add(name, "");
+		conn->head.add(connect_t::down_str(str.substr(0, pos)), "");
 }
 
 

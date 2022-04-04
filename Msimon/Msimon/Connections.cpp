@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:37:26 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/02 08:45:14 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/02 11:13:23 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	Connections::request(int fds, std::vector<ServerConfig> const &srvs_config)
 	if (!conn)
 	{
 		try {
-			_connections.insert(std::pair<int, connect_t> (fds, connect_s(fds)));
+			_connections.insert(std::pair<int, connect_t> (fds, connect_t(fds)));
 		}
 		catch (std::exception &e) {
 			std::cout << e.what() << "\n";
@@ -43,7 +43,7 @@ int	Connections::request(int fds, std::vector<ServerConfig> const &srvs_config)
 		}
 		if (conn->statusReq == 1)
 		{
-			if (conn->head.get("transfer-encoding") == "chunked")
+			if (connect_t::down_str(conn->head.get("transfer-encoding")) == "chunked")
 			{
 				if (chunked_decoding(conn))
 					conn->statusReq = 2;
