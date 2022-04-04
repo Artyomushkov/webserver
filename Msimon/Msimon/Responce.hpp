@@ -24,6 +24,7 @@
 # include <cstdlib>
 # include "Connect.hpp"
 # include "ContentFile.hpp"
+# include "HandlerCGI.hpp"
 
 # define SERVER_NAME "JUM webserv/0.0.1"
 

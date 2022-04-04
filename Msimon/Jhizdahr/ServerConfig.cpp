@@ -86,6 +86,9 @@ void ServerConfig::parseRoot(std::vector<std::string>& command) {
 	if (command[1][0] != '/')
 		throw std::logic_error("Config syntax error in root: root should "
 							   "begin with /");
+	if (command[1][command[1].length() - 1] == '/')
+		throw std::logic_error("Config syntax error in root: root should "
+							   "not end with /");
 	_root = command[1];
 }
 

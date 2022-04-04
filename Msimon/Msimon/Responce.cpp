@@ -208,10 +208,18 @@ void	Responce::sending(Connect* conn)
 			return ;
 		}
 		if (file_path == "")
-			file_path = conn->location->getRoot() + "/" + conn->head.get("uri").substr(conn->location->getRoute().length());			
-		//Проверка файла по расширению на CGI
-		//std::cout << Connect::down_str(getExtension(file_path)) << "\n";
-
+			file_path = conn->location->getRoot() + "/" + conn->head.get("uri").substr(conn->location->getRoute().length());
+		ContentFile content;
+		HandlerCGI cgi;
+		if (conn->location->getRoute() == "/cgi-bin/") {
+			head = "HTTP/1.1 200 " + _code_error_text.find("200")->second + "\r\n";
+			head += "Server: " + std::string(SERVER_NAME) + "\r\n";
+			head += "Connection: keep-alive\r\n";
+			send(conn->fds, head.data(), head.length(), 0);
+			content = cgi.handleCGI(conn);
+			send(conn->fds, content.get_content(), content.len(), 0);
+			return ;
+		}
 		if (conn->head.get("method") == "PUT")
 		{
 			loadFile(conn);
@@ -222,7 +230,6 @@ void	Responce::sending(Connect* conn)
 			deleteFile(conn);
 			return ;
 		}
-		ContentFile	content;
 		content.read(file_path);
 		head = "HTTP/1.1 200 " + _code_error_text.find("200")->second + "\r\n";
 		head += "Server: " + std::string(SERVER_NAME) + "\r\n";

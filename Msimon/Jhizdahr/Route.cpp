@@ -85,7 +85,11 @@ void Route::parseRoot(std::vector<std::string>& command) {
 	if (command.size() != 2)
 		throw (std::logic_error("Syntax error in route root config"));
 	if (command[1][0] != '/')
-		throw (std::logic_error("Syntax error in route root config"));
+		throw (std::logic_error("Config syntax error in route root: root "
+								"should begin with /"));
+	if (command[1][command[1].length() - 1] == '/')
+		throw std::logic_error("Config syntax error in route root: root should "
+							   "not end with /");
 	_root = command[1];
 }
 
@@ -128,10 +132,11 @@ void Route::parseRouteInit(std::ifstream& file,
 						   std::vector <std::string>& command,
 						   std::string& root) {
 
-	if (root[root.length() - 1] != '/')
-		_root = root + command[1];
+	std::string route = command[1];
+	if (route[route.length() - 1] == '/')
+		_root = root + route.substr(0, route.length() - 1);
 	else
-		_root = root.substr(0, root.length() - 1) + command[1];
+		_root = root + route;
 	try {
 		parseBrackets(file, command);
 	}
@@ -146,26 +151,17 @@ void Route::parseRouteInit(std::ifstream& file,
 	}
 }
 
-void Route::parseTmpDir(std::vector <std::string>& command) {
-
-	if (command.size() != 2)
-		throw std::logic_error("Config syntax error in tmp_files");
-	if (command[1][0] != '/')
-		throw std::logic_error("Config syntax error in tmp_files: tmp_files "
-							   "argument should begin with /");
-	_tmp_files = command[1];
-}
-
 void Route::parseRouteInit(std::ifstream& file,
 						   std::vector <std::string>& command,
 						   std::string& root,
 						   std::set <std::string>& default_pages,
 						   std::map<int, std::string>& error_pages) {
 
-	if (root[root.length() - 1] != '/')
-		_root = root + command[1];
+	std::string route = command[1];
+	if (route[route.length() - 1] == '/')
+		_root = root + route.substr(0, route.length() - 1);
 	else
-		_root = root.substr(0, root.length() - 1) + command[1];
+		_root = root + route;
 	try {
 		parseBrackets(file, command);
 	}
@@ -180,6 +176,16 @@ void Route::parseRouteInit(std::ifstream& file,
 	}
 	_default_pages = default_pages;
 	_error_pages = error_pages;
+}
+
+void Route::parseTmpDir(std::vector <std::string>& command) {
+
+	if (command.size() != 2)
+		throw std::logic_error("Config syntax error in tmp_files");
+	if (command[1][0] != '/')
+		throw std::logic_error("Config syntax error in tmp_files: tmp_files "
+							   "argument should begin with /");
+	_tmp_files = command[1];
 }
 
 void Route::parsingProcess(std::ifstream& file, std::vector<std::string>&
