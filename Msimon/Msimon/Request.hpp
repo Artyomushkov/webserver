@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 08:53:28 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/02 11:02:03 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/04 10:19:13 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ class	Request: public GetServer
 	public:
 		Request() {};
 		~Request() {};
-		int		parse_head(connect_t* conn, std::vector<ServerConfig> const &srvs_config);
-		bool	chunked_decoding(connect_t* conn);
+		int		parse_head(Connect* conn, std::vector<ServerConfig> const &srvs_config);
+		bool	chunked_decoding(Connect* conn);
 	
 	private:
-		void		parse_first_line_head(connect_t* conn, std::string str);
-		void		parse_line_head(connect_t* conn, std::string str);
+		void		parse_first_line_head(Connect* conn, std::string str);
+		void		parse_line_head(Connect* conn, std::string str);
 };
 
 #endif

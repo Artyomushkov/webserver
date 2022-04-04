@@ -10,7 +10,7 @@ std::string GetServer::parseServerName(const std::string& host) {
 	return res;
 }
 
-const ServerConfig* GetServer::chooseServer(connect_t* conn,
+const ServerConfig* GetServer::chooseServer(Connect* conn,
 											const std::vector <ServerConfig>& config) {
 
 	std::string reqServerName = parseServerName(conn->head.get("host"));
@@ -37,7 +37,7 @@ bool GetServer::checkHTTPMethodAllowed(const std::string& method,
 	return false;
 }
 
-void GetServer::getConfigInformation(connect_t* conn,
+void GetServer::getConfigInformation(Connect* conn,
 									 const std::vector <ServerConfig>& config) {
 
 	if (conn->head.get("http") != "HTTP/1.1")
@@ -69,13 +69,12 @@ void GetServer::getConfigInformation(connect_t* conn,
 		std::vector<std::string> routeParsed = strSplitBySlash(it->getRoute());
 		size_t i = 0;
 		while (i < routeParsed.size() && i < urlParsed.size()) {
-			if (routeParsed[i] == urlParsed[i]) {
+			if (routeParsed[i] == urlParsed[i])
 				++i;
-			}
 			else
 				break;
 		}
-		if (i > maxDirs) {
+		if (i > maxDirs && i == routeParsed.size()) {
 			maxDirs = i;
 			res = &(*it);
 		}

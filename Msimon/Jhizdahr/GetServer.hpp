@@ -9,9 +9,9 @@
 class GetServer {
 
 public:
-	void getConfigInformation(connect_t* conn, const std::vector<ServerConfig>&
+	void getConfigInformation(Connect* conn, const std::vector<ServerConfig>&
 		config);
-	const ServerConfig* chooseServer(connect_t* conn,
+	const ServerConfig* chooseServer(Connect* conn,
 												const std::vector
 												        <ServerConfig>& config);
 

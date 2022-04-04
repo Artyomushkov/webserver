@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 11:02:24 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/26 08:45:50 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/04 11:18:21 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ContentFile::read(std::string const &path)
 			}
 			file.read(_content, buf.st_size);
 			if (file.rdstate() & std::ifstream::failbit || file.rdstate() & std::ifstream::badbit)
-				throw (std::runtime_error("500"));
+				throw (std::runtime_error("403"));
 			_len = buf.st_size;
 			file.close();
 		}

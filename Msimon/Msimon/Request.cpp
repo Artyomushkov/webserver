@@ -6,13 +6,13 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 09:08:21 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/02 11:12:11 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/04 10:19:13 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Request.hpp"
 
-int	Request::parse_head(connect_t* conn, std::vector<ServerConfig> const &srvs_config)
+int	Request::parse_head(Connect* conn, std::vector<ServerConfig> const &srvs_config)
 {
 	size_t		pos = conn->contentReq.find("\r\n\r\n");
 	size_t		line_pos = 0;
@@ -29,21 +29,10 @@ int	Request::parse_head(connect_t* conn, std::vector<ServerConfig> const &srvs_c
 	}
 	conn->contentReq.cut(0, pos + 4);
 	getConfigInformation(conn, srvs_config);
-	if (conn->location)
-	{
-		std::set<std::string>			tmp = conn->location->getHTTPmethods();
-		std::set<std::string>::iterator	it = tmp.begin();
-		while (it != tmp.end())
-		{
-			std::cout << *it << "\n";
-			it++;
-		}
-		std::cout << conn->location->getTmpFilesDir() << "\n";
-	}
 	return 1;
 }
 
-void	Request::parse_first_line_head(connect_t* conn, std::string str)
+void	Request::parse_first_line_head(Connect* conn, std::string str)
 {
 	size_t		pos;
 	std::string	uri;
@@ -65,21 +54,32 @@ void	Request::parse_first_line_head(connect_t* conn, std::string str)
 	conn->head.add("http", str.substr(pos + 1));
 }
 
-void	Request::parse_line_head(connect_t* conn, std::string str)
+void	Request::parse_line_head(Connect* conn, std::string str)
 {
 	size_t				pos;
 
 	pos = str.find(": ");
 	if (pos != std::string::npos)
-		conn->head.add(connect_t::down_str(str.substr(0, pos)), str.substr(pos + 2));
+		conn->head.add(Connect::down_str(str.substr(0, pos)), str.substr(pos + 2));
 	else
-		conn->head.add(connect_t::down_str(str.substr(0, pos)), "");
+		conn->head.add(Connect::down_str(str.substr(0, pos)), "");
 }
 
-
-bool	Request::chunked_decoding(connect_t* conn)
+bool	Request::chunked_decoding(Connect* conn)
 {
-	(void) conn;
+	size_t			pos = 0;
+	std::string		size_str;
+	unsigned long	size;
 
-	return 1;
+	while (pos < conn->contentReq.len())
+	{
+		size_str = conn->contentReq.get_line(pos);
+		size = std::strtoul(size_str.data(), NULL, 16);
+		if (size == 0)
+			return 1;
+		conn->unChunked.push_back(conn->contentReq.get_content() + size_str.length() + 2 + pos, (size_t)size);
+		pos += (size_str.length() + 4 + size);
+	}
+	conn->contentReq.clean();
+	return 0;
 }

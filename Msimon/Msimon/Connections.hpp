@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 11:57:20 by msimon            #+#    #+#             */
-/*   Updated: 2022/03/31 15:25:08 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/04 10:19:13 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ class	Connections: public Request, public Responce
 		std::vector<int>	checkTime(time_t time_out);
 
 	private:
-		std::map<int, connect_t>	_connections;
-		connect_t*					getConnect(int fds);
+		std::map<int, Connect>	_connections;
+		Connect*					getConnect(int fds);
 		void						delConnect(int fds);
 };
 
