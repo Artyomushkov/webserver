@@ -69,12 +69,13 @@ void GetServer::getConfigInformation(connect_t* conn,
 		std::vector<std::string> routeParsed = strSplitBySlash(it->getRoute());
 		size_t i = 0;
 		while (i < routeParsed.size() && i < urlParsed.size()) {
-			if (routeParsed[i] == urlParsed[i])
+			if (routeParsed[i] == urlParsed[i]) {
 				++i;
+			}
 			else
 				break;
 		}
-		if (i > maxDirs && i == routeParsed.size()) {
+		if (i > maxDirs) {
 			maxDirs = i;
 			res = &(*it);
 		}
