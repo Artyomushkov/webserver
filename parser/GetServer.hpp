@@ -3,15 +3,15 @@
 
 #include "ServerConfig.hpp"
 #include "Route.hpp"
-#include "../http/Msimon/Connect.hpp"
+#include "Connect.hpp"
 #include "utils.hpp"
 
 class GetServer {
 
 public:
-	void getConfigInformation(connect_t* conn, const std::vector<ServerConfig>&
+	void getConfigInformation(Connect* conn, const std::vector<ServerConfig>&
 		config);
-	const ServerConfig* chooseServer(connect_t* conn,
+	const ServerConfig* chooseServer(Connect* conn,
 												const std::vector
 												        <ServerConfig>& config);
 

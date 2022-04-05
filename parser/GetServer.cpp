@@ -10,7 +10,7 @@ std::string GetServer::parseServerName(const std::string& host) {
 	return res;
 }
 
-const ServerConfig* GetServer::chooseServer(connect_t* conn,
+const ServerConfig* GetServer::chooseServer(Connect* conn,
 											const std::vector <ServerConfig>& config) {
 
 	std::string reqServerName = parseServerName(conn->head.get("host"));
@@ -37,13 +37,13 @@ bool GetServer::checkHTTPMethodAllowed(const std::string& method,
 	return false;
 }
 
-void GetServer::getConfigInformation(connect_t* conn,
+void GetServer::getConfigInformation(Connect* conn,
 									 const std::vector <ServerConfig>& config) {
 
 	if (conn->head.get("http") != "HTTP/1.1")
 		throw std::runtime_error("505");
 	std::string method = conn->head.get("method");
-	ServerConfig* server = chooseServer(conn, config);
+	const ServerConfig* server = chooseServer(conn, config);
 	if (str_to_int(conn->head.get("content-length")) >
 	server->getBodySizeLimit())
 		throw std::runtime_error("413");
@@ -59,7 +59,7 @@ void GetServer::getConfigInformation(connect_t* conn,
 	if (uri.empty() || uri == "/") {
 		if (!checkHTTPMethodAllowed(method, res))
 			throw std::runtime_error("405");
-		conn->config = res;
+		conn->location = res;
 		return;
 	}
 	size_t maxDirs = 0;
@@ -69,12 +69,13 @@ void GetServer::getConfigInformation(connect_t* conn,
 		std::vector<std::string> routeParsed = strSplitBySlash(it->getRoute());
 		size_t i = 0;
 		while (i < routeParsed.size() && i < urlParsed.size()) {
-			if (routeParsed[i] == urlParsed[i])
+			if (routeParsed[i] == urlParsed[i]) {
 				++i;
+			}
 			else
 				break;
 		}
-		if (i > maxDirs && i == routeParsed.size()) {
+		if (i > maxDirs) {
 			maxDirs = i;
 			res = &(*it);
 		}
@@ -82,5 +83,5 @@ void GetServer::getConfigInformation(connect_t* conn,
 	}
 	if (!checkHTTPMethodAllowed(method, res))
 		throw std::runtime_error("405");
-	conn->config = res;
+	conn->location = res;
 }

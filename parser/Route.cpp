@@ -1,8 +1,27 @@
 #include "Route.hpp"
 
-Route:: Route(std::string route, std::string& root, std::set<std::string>&
-        default_pages, std::string& tmp_files, std::map<int, std::string>&
-                error_pages) :
+Route:: Route(std::string& root, std::set<std::string>&
+default_pages, std::map<int, std::string>& error_pages) :
+		_route("/"),
+		_default_pages(default_pages),
+		_http_methods(),
+		_redirection(),
+		_root(root),
+		_autoindex(false),
+		_upload_dir("/downloads"),
+		_tmp_files(),
+		_error_pages(error_pages),
+		_cgi() {
+
+	_http_methods.insert("GET");
+	_http_methods.insert("POST");
+	_http_methods.insert("DELETE");
+	_http_methods.insert("PUT");
+	_http_methods.insert("HEAD");
+}
+
+Route:: Route(std::string& route, std::string& root, std::set<std::string>&
+        default_pages, std::map<int, std::string>& error_pages) :
 			_route(route),
 			_default_pages(default_pages),
 			_http_methods(),
@@ -10,7 +29,7 @@ Route:: Route(std::string route, std::string& root, std::set<std::string>&
 			_root(root),
 			_autoindex(false),
 			_upload_dir("/downloads"),
-			_tmp_files(tmp_files),
+			_tmp_files(),
 			_error_pages(error_pages),
 			_cgi() {
 
@@ -23,11 +42,10 @@ Route:: Route(std::string route, std::string& root, std::set<std::string>&
 
 Route:: ~Route() {}
 
-void Route::parseFirstStr(std::ifstream& file,
+void Route::parseBrackets(std::ifstream& file,
 						  std::vector<std::string>& command) {
 
-	_root += _route;
-	if (command[2] == "{")
+	if (command[0] == "{")
 		return ;
 	command.clear();
 	std::string str;
@@ -67,7 +85,11 @@ void Route::parseRoot(std::vector<std::string>& command) {
 	if (command.size() != 2)
 		throw (std::logic_error("Syntax error in route root config"));
 	if (command[1][0] != '/')
-		throw (std::logic_error("Syntax error in route root config"));
+		throw (std::logic_error("Config syntax error in route root: root "
+								"should begin with /"));
+	if (command[1][command[1].length() - 1] == '/')
+		throw std::logic_error("Config syntax error in route root: root should "
+							   "not end with /");
 	_root = command[1];
 }
 
@@ -106,14 +128,69 @@ void Route::parseCGI(std::vector<std::string>& command) {
 	_cgi = command[1];
 }
 
-void Route::parseRoute(std::ifstream& file, std::vector<std::string>& command) {
+void Route::parseRouteInit(std::ifstream& file,
+						   std::vector <std::string>& command,
+						   std::string& root) {
 
+	std::string route = command[1];
+	if (route[route.length() - 1] == '/')
+		_root = root + route.substr(0, route.length() - 1);
+	else
+		_root = root + route;
 	try {
-		parseFirstStr(file, command);
+		parseBrackets(file, command);
 	}
 	catch (std::logic_error& e) {
 		throw;
 	}
+	try {
+		parsingProcess(file, command);
+	}
+	catch (std::logic_error& e) {
+		throw;
+	}
+}
+
+void Route::parseRouteInit(std::ifstream& file,
+						   std::vector <std::string>& command,
+						   std::string& root,
+						   std::set <std::string>& default_pages,
+						   std::map<int, std::string>& error_pages) {
+
+	std::string route = command[1];
+	if (route[route.length() - 1] == '/')
+		_root = root + route.substr(0, route.length() - 1);
+	else
+		_root = root + route;
+	try {
+		parseBrackets(file, command);
+	}
+	catch (std::logic_error& e) {
+		throw;
+	}
+	try {
+		parsingProcess(file, command);
+	}
+	catch (std::logic_error& e) {
+		throw;
+	}
+	_default_pages = default_pages;
+	_error_pages = error_pages;
+}
+
+void Route::parseTmpDir(std::vector <std::string>& command) {
+
+	if (command.size() != 2)
+		throw std::logic_error("Config syntax error in tmp_files");
+	if (command[1][0] != '/')
+		throw std::logic_error("Config syntax error in tmp_files: tmp_files "
+							   "argument should begin with /");
+	_tmp_files = command[1];
+}
+
+void Route::parsingProcess(std::ifstream& file, std::vector<std::string>&
+        command) {
+
 	std::string str;
 	bool in_brackets = true;
 	while (getline(file, str)) {
@@ -172,6 +249,14 @@ void Route::parseRoute(std::ifstream& file, std::vector<std::string>& command) {
 				throw;
 			}
 		}
+		else if (command[0] == "tmp_files") {
+			try {
+				parseTmpDir(command);
+			}
+			catch (std::logic_error& e) {
+				throw;
+			}
+		}
 		else if (command[0] == "cgi") {
 			try {
 				parseCGI(command);
@@ -185,7 +270,13 @@ void Route::parseRoute(std::ifstream& file, std::vector<std::string>& command) {
 		command.clear();
 	}
 	if (in_brackets)
-		throw (std::logic_error("Brackets unclosed in loctaion config"));
+		throw (std::logic_error("Brackets unclosed in location config"));
+	if (_tmp_files.empty()) {
+		if (_root[_root.length() - 1] == '/')
+			_tmp_files = _root + "tmp";
+		else
+			_tmp_files = _root + "/tmp";
+	}
 }
 
 const std::string& Route::getRoute() const {
