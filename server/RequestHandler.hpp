@@ -4,7 +4,7 @@
 
 #ifndef WEBSERV_REQUEST_H
 #define WEBSERV_REQUEST_H
-#include "../parser/ServerConfig.hpp"
+#include "ServerConfig.hpp"
 #include <vector>
 #include <sys/select.h>
 

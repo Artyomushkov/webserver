@@ -5,6 +5,9 @@ Socket::Socket(ServerConfig s, std::pair<in_addr_t, int>  v)
 	IP = v.first;
 	port = v.second;
 	fd = socket(AF_INET, SOCK_STREAM, 0);
+	int  temp = 1;
+	if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &temp, sizeof(int)) < 0)
+	{perror("socket reinit error"); exit(EXIT_FAILURE);}
 	sockaddr_in sockaddr;
 	sockaddr.sin_family = AF_INET;
 	sockaddr.sin_addr.s_addr = v.first;
