@@ -82,7 +82,6 @@ void ServerManager::setSelect()
 
 	fd_set			loopfds;
 	int				connectionfd;
-	RequestHandler	requestHandler;
 	std::vector<int> all_fds;
 	std::vector<Socket>::iterator it;
 	struct timeval	tv; tv.tv_sec = TIME_OUT + 1; tv.tv_usec = 0;

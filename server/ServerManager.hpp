@@ -5,7 +5,6 @@
 #include <iostream>
 #include <unistd.h>
 #include "../parser/ServerConfig.hpp"
-#include "RequestHandler.hpp"
 #include "Socket.hpp"
 #include "../http/Connections.hpp"
 
@@ -24,7 +23,6 @@ private:
 	std::vector<Socket>::iterator get_socket(int);
 	void close_connections(std::vector<int> arr_conn, fd_set* fdset);
 public:
-	RequestHandler requestHandler;
 	std::vector<ServerConfig> servers;
 	std::vector<Socket> sockets;
 

@@ -16,7 +16,7 @@
 # include <string>
 # include <vector>
 # include "Connect.hpp"
-# include "../parser/GetServer.hpp"
+# include "GetServer.hpp"
 
 class	Request: public GetServer
 {
