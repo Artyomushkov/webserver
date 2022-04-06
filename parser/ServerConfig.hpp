@@ -22,8 +22,8 @@ private:
 	std::map<int, std::string>						_error_pages;
 	std::set<std::string>							_default_pages;
 	std::string										_root;
-	int 											_limit_body_size;
 	std::vector<Route>								_routes;
+	std::map<std::string, std::string>				_cgi;
 
 public:
 	ServerConfig();
@@ -31,19 +31,18 @@ public:
 	void	parseServer(std::ifstream& file);
 	const std::vector<std::pair<in_addr_t, int> >& getVectorOfAddresses() const;
 	const std::set<std::string>& getServerNames() const;
-	int getBodySizeLimit() const;
 	const std::vector<Route>& getServerRoutes() const;
 
 private:
 	void parseRequestAddress(std::vector<std::string>& command);
 	void parseServerNames(std::vector<std::string>& command);
 	void parseErrorPages(std::vector<std::string>& command);
-	void parseClientMaxBodySize(std::vector<std::string>& command);
 	void parseRoot(std::vector<std::string>& command);
 	void parseIndex(std::vector<std::string>& command);
 	void parseRoutePreporation(std::ifstream& file,
 							   std::vector<std::string>& command);
 	bool ifIPvalid(std::string& ip_address);
+	void parseCGI(std::vector<std::string>& command);
 };
 
 

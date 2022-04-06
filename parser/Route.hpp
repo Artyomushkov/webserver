@@ -12,32 +12,34 @@
 class Route {
 
 private:
-	std::string					_route;
-	std::set<std::string>		_default_pages;
-	std::set<std::string>		_http_methods;
-	std::string					_redirection;
-	std::string					_root;
-	bool 						_autoindex;
-	std::string					_upload_dir;
-	std::string					_tmp_files;
-	std::map<int, std::string>	_error_pages;
-	std::string 				_cgi;
+	std::string							_route;
+	std::set<std::string>				_default_pages;
+	std::set<std::string>				_http_methods;
+	std::string							_redirection;
+	std::string							_root;
+	bool 								_autoindex;
+	std::string							_upload_dir;
+	std::map<int, std::string>			_error_pages;
+	std::map<std::string, std::string>	_cgi;
+	int 								_limit_body_size;
 
 private:
 	Route();
 
 public:
 	Route(std::string& route, std::string& root, std::set<std::string>&
-	        default_pages, std::map<int, std::string>& error_pages);
+	        default_pages, std::map<int, std::string>& error_pages,
+			std::map<std::string, std::string>& cgi);
 	Route(std::string& root, std::set<std::string>&
 	default_pages, std::map<int, std::string>&
-	        error_pages);
+	        error_pages, std::map<std::string, std::string>& cgi);
 	~Route();
 	void	parseRouteInit(std::ifstream& file, std::vector<std::string>&
 	command, std::string& root);
 	void	parseRouteInit(std::ifstream& file, std::vector<std::string>&
 	command, std::string& root, std::set<std::string>&
-	default_pages, std::map<int, std::string>& error_pages);
+	default_pages, std::map<int, std::string>& error_pages,
+	std::map<std::string, std::string>& cgi);
 	const std::string& getRoute() const;
 	const std::set<std::string>& getDefaultPages() const;
 	const std::set<std::string>& getHTTPmethods() const;
@@ -45,9 +47,9 @@ public:
 	bool getAutoindex() const;
 	const std::string& getRoot() const;
 	const std::string& getUploadDirectory() const;
-	const std::string& getTmpFilesDir() const;
-	const std::string& getCGI() const;
-	const std::map<int, std::string> getErrorPages() const;
+	const std::map<int, std::string>& getErrorPages() const;
+	const std::map<std::string, std::string>& getCGI() const;
+	int getLimitBodySize() const;
 
 
 private:
@@ -61,8 +63,7 @@ private:
 	void parseIndex(std::vector<std::string>& command);
 	void parseAutoindex(std::vector<std::string>& command);
 	void parseUploadDir(std::vector<std::string>& command);
-	void parseCGI(std::vector<std::string>& command);
-	void parseTmpDir(std::vector <std::string>& command);
+	void parseClientMaxBodySize(std::vector<std::string>& command);
 };
 
 

@@ -6,14 +6,14 @@ ServerConfig::ServerConfig() :
 	_error_pages(),
 	_default_pages(),
 	_root("/www"),
-	_limit_body_size(1000000),
-	_routes() {
+	_routes(),
+	_cgi() {
 
 	_request_address.push_back(std::pair<in_addr_t, int>
 	        (inet_addr("0.0.0.0"), 80));
 	_default_pages.insert("index.html");
 	_server_names.insert(std::string());
-	_routes.push_back(Route(_root, _default_pages, _error_pages));
+	_routes.push_back(Route(_root, _default_pages, _error_pages, _cgi));
 }
 
 ServerConfig::~ServerConfig() {}
@@ -25,7 +25,7 @@ void ServerConfig::parseRequestAddress(std::vector<std::string>& command) {
 	for (size_t i = 1; i < command.size(); ++i) {
 		if (i > _request_address.size())
 			_request_address.push_back(std::make_pair(inet_addr("0.0.0.0"),80));
-		size_t colon_pos = command[i].find(":");
+		size_t colon_pos = command[i].find(':');
 		if (colon_pos != std::string::npos) {
 			std::string ip_addr = command[i].substr(0, colon_pos);
 			if (!ifIPvalid(ip_addr))
@@ -39,7 +39,7 @@ void ServerConfig::parseRequestAddress(std::vector<std::string>& command) {
 			.back().second < 0)
 				throw std::logic_error("Invalid port");
 		}
-		else if (command[i].find(".") != std::string::npos) {
+		else if (command[i].find('.') != std::string::npos) {
 			if (!ifIPvalid(command[i]))
 				throw std::logic_error("Invalid IP address");
 			_request_address.back().first = inet_addr(command[i].c_str());
@@ -92,6 +92,16 @@ void ServerConfig::parseRoot(std::vector<std::string>& command) {
 	_root = command[1];
 }
 
+void ServerConfig::parseCGI(std::vector<std::string>& command) {
+
+	if (command.size() != 3)
+		throw std::logic_error("Config syntax error in cgi");
+	if (command[1][0] != '.')
+		throw std::logic_error("Error in config:m cgi extension should begin "
+							   "with '.'");
+	_cgi.insert(std::make_pair(command[1], command[2]));
+}
+
 void ServerConfig::parseIndex(std::vector<std::string>& command) {
 
 	if (command.size() < 2)
@@ -99,17 +109,6 @@ void ServerConfig::parseIndex(std::vector<std::string>& command) {
 	_default_pages.clear();
 	for (size_t i = 1; i < command.size(); ++i)
 		_default_pages.insert(command[i]);
-}
-
-void ServerConfig::parseClientMaxBodySize(
-		std::vector<std::string>& command) {
-
-	if (command.size() != 2)
-		throw std::logic_error("Config syntax error in client_max_body_size");
-	int num = str_to_int(command[1]);
-	if (num < 0)
-		throw std::logic_error("Config syntax error in client_max_body_size");
-	_limit_body_size = num;
 }
 
 void ServerConfig::parseRoutePreporation(std::ifstream& file,
@@ -121,11 +120,11 @@ void ServerConfig::parseRoutePreporation(std::ifstream& file,
 		throw std::logic_error("Syntax error in location route");
 	if (command[1] != "/")
 		_routes.push_back(Route(command[1], _root, _default_pages,
-								_error_pages));
+								_error_pages, _cgi));
 	try {
 		if (command[1] == "/")
 			_routes.front().parseRouteInit(file, command, _root,
-										   _default_pages, _error_pages);
+										   _default_pages, _error_pages, _cgi);
 		else
 			_routes.back().parseRouteInit(file, command, _root);
 	}
@@ -186,9 +185,9 @@ void ServerConfig::parseServer(std::ifstream& file) {
 				throw;
 			}
 		}
-		else if (command[0] == "client_max_body_size") {
+		else if (command[0] == "cgi") {
 			try {
-				parseClientMaxBodySize(command);
+				parseCGI(command);
 			}
 			catch (std::logic_error& e) {
 				throw;
@@ -229,10 +228,6 @@ const std::vector<std::pair<in_addr_t, int> >&
 
 const std::set<std::string>& ServerConfig::getServerNames() const {
 	return _server_names;
-}
-
-int ServerConfig::getBodySizeLimit() const {
-	return _limit_body_size;
 }
 
 const std::vector<Route>& ServerConfig::getServerRoutes() const {

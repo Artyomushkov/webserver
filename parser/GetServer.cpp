@@ -44,9 +44,6 @@ void GetServer::getConfigInformation(Connect* conn,
 		throw std::runtime_error("505");
 	std::string method = conn->head.get("method");
 	const ServerConfig* server = chooseServer(conn, config);
-	if (str_to_int(conn->head.get("content-length")) >
-	server->getBodySizeLimit())
-		throw std::runtime_error("413");
 	std::string HTTPmethod = conn->head.get("method");
 	if (HTTPmethod != "GET" && HTTPmethod != "HEAD" && HTTPmethod != "PUT" &&
 	HTTPmethod != "POST" && HTTPmethod != "DELETE")
@@ -83,5 +80,8 @@ void GetServer::getConfigInformation(Connect* conn,
 	}
 	if (!checkHTTPMethodAllowed(method, res))
 		throw std::runtime_error("405");
+	if (str_to_int(conn->head.get("content-length")) >
+		res->getLimitBodySize())
+		throw std::runtime_error("413");
 	conn->location = res;
 }
