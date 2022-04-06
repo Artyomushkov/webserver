@@ -1,7 +1,6 @@
 NAME =	webserv
 
-SRCS =	server/RequestHandler.cpp \
-        server/ServerManager.cpp \
+SRCS =	server/ServerManager.cpp \
 		server/Socket.cpp \
 		parser/ConfigParser.cpp \
 		parser/GetServer.cpp \
