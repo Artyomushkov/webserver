@@ -13,12 +13,13 @@ class Cookie
 	std::string httponly;
 	std::string samesite;
 
+	std::string get_time(int);
+
 public:
 	Cookie(std::string name, std::string value, std::string expires);
 	Cookie(std::string name, std::string value);
 	std::string set_cookie_string();
 	std::string delete_cookie_string();
 };
-
 
 #endif //WEBSERV_COOKIE_H

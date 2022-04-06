@@ -1,5 +1,15 @@
 #include "Cookie.hpp"
 
+std::string Cookie::get_time(int t)
+{
+	char       time_str[100];
+	time_t curr_time = std::time(NULL);
+	time_t time = curr_time + t;
+	std::strftime(time_str, 100, "%a, %d %b %Y %H:%M:%S GMT", std::gmtime
+			(&time));
+	return time_str;
+}
+
 Cookie::Cookie(std::string name, std::string value)
 {
 	//Cookie: NAME1=OPAQUE_STRING1; NAME2=OPAQUE_STRING2
@@ -13,6 +23,8 @@ std::string Cookie::set_cookie_string()
 }
 std::string Cookie::delete_cookie_string()
 {
-	std::string cookie_string = "Set-Cookie: "+ name + "=" + value + "=; expires=" +  ;
+	std::string cookie_string = "Set-Cookie: "+ name + "=" + value + "=; "
+																	 "expires=" +
+			get_time(-3600);
 	return cookie_string;
 }
