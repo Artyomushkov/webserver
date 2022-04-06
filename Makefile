@@ -1,12 +1,22 @@
 NAME =	z
 
-SRCS =	server/ServerManager.cpp server/RequestHandler.cpp server/Socket.cpp \
-		parser/ConfigParser.cpp parser/GetServer.cpp \
-        parser/Route.cpp parser/ServerConfig.cpp parser/utils.cpp  \
-        http/Msimon/Content/AContent.cpp http/Msimon/Content/ContentFile.cpp \
-        http/Msimon/Content/ContentSocket.cpp \
-        http/Msimon/Connections.cpp http/Msimon/Request.cpp \
-        http/Msimon/RequestData.cpp http/Msimon/Responce.cpp
+SRCS =	server/RequestHandler.cpp \
+        server/ServerManager.cpp \
+		server/Socket.cpp \
+		parser/ConfigParser.cpp \
+		parser/GetServer.cpp \
+		parser/Route.cpp \
+		parser/ServerConfig.cpp \
+		parser/utils.cpp \
+		http/Content/AContent.cpp \
+		http/Content/ContentFile.cpp \
+		http/Content/ContentSocket.cpp \
+		http/Connect.cpp \
+		http/Connections.cpp \
+		http/Request.cpp \
+		http/RequestData.cpp \
+		http/Responce.cpp \
+		cgi/HandlerCGI.cpp
 
 MAIN =	main.cpp
 

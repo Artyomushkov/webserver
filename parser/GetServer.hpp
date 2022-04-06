@@ -3,7 +3,7 @@
 
 #include "ServerConfig.hpp"
 #include "Route.hpp"
-#include "Connect.hpp"
+#include "../http/Connect.hpp"
 #include "utils.hpp"
 
 class GetServer {

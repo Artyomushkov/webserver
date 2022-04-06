@@ -15,9 +15,9 @@
 
 # include <ctime>
 # include "RequestData.hpp"
-# include "Route.hpp"
-# include "ContentSocket.hpp"
-# include "Content.hpp"
+# include "../parser/Route.hpp"
+# include "Content/ContentSocket.hpp"
+# include "Content/Content.hpp"
 
 class Connect {
 	public:

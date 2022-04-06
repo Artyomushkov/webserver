@@ -7,9 +7,9 @@
 #include <unistd.h>
 # include <sys/fcntl.h>
 # include <sys/wait.h>
-# include "ServerConfig.hpp"
-# include "ContentFile.hpp"
-# include "Connect.hpp"
+# include "../parser/ServerConfig.hpp"
+# include "../http/Content/ContentFile.hpp"
+# include "../http/Connect.hpp"
 
 class HandlerCGI {
 

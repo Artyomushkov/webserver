@@ -63,16 +63,16 @@ RM = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/a1234/Desktop/webserver
+CMAKE_SOURCE_DIR = /Users/a1234/Desktop/webserver2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/a1234/Desktop/webserver/cmake-build-debug
+CMAKE_BINARY_DIR = /Users/a1234/Desktop/webserver2/cmake-build-debug
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/webserver.dir/all
+all: CMakeFiles/webserver2.dir/all
 
 .PHONY : all
 
@@ -82,36 +82,36 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/webserver.dir/clean
+clean: CMakeFiles/webserver2.dir/clean
 
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/webserver.dir
+# Target rules for target CMakeFiles/webserver2.dir
 
 # All Build rule for target.
-CMakeFiles/webserver.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/a1234/Desktop/webserver/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 "Built target webserver"
-.PHONY : CMakeFiles/webserver.dir/all
+CMakeFiles/webserver2.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/a1234/Desktop/webserver2/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19 "Built target webserver2"
+.PHONY : CMakeFiles/webserver2.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/webserver.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/a1234/Desktop/webserver/cmake-build-debug/CMakeFiles 16
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/webserver.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/a1234/Desktop/webserver/cmake-build-debug/CMakeFiles 0
-.PHONY : CMakeFiles/webserver.dir/rule
+CMakeFiles/webserver2.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/a1234/Desktop/webserver2/cmake-build-debug/CMakeFiles 19
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/webserver2.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/a1234/Desktop/webserver2/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/webserver2.dir/rule
 
 # Convenience name for target.
-webserver: CMakeFiles/webserver.dir/rule
+webserver2: CMakeFiles/webserver2.dir/rule
 
-.PHONY : webserver
+.PHONY : webserver2
 
 # clean rule for target.
-CMakeFiles/webserver.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/clean
-.PHONY : CMakeFiles/webserver.dir/clean
+CMakeFiles/webserver2.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/clean
+.PHONY : CMakeFiles/webserver2.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

@@ -7,7 +7,7 @@
 #include "../parser/ServerConfig.hpp"
 #include "RequestHandler.hpp"
 #include "Socket.hpp"
-#include "../http/Msimon/Connections.hpp"
+#include "../http/Connections.hpp"
 
 #define TIME_OUT 5 //Время ожидания в секундах
 

@@ -67,10 +67,10 @@ RM = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/a1234/Desktop/webserver
+CMAKE_SOURCE_DIR = /Users/a1234/Desktop/webserver2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/a1234/Desktop/webserver/cmake-build-debug
+CMAKE_BINARY_DIR = /Users/a1234/Desktop/webserver2/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -99,9 +99,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/a1234/Desktop/webserver/cmake-build-debug/CMakeFiles /Users/a1234/Desktop/webserver/cmake-build-debug//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/a1234/Desktop/webserver2/cmake-build-debug/CMakeFiles /Users/a1234/Desktop/webserver2/cmake-build-debug//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/a1234/Desktop/webserver/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/a1234/Desktop/webserver2/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -130,206 +130,260 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named webserver
+# Target rules for targets named webserver2
 
 # Build rule for target.
-webserver: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 webserver
-.PHONY : webserver
+webserver2: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 webserver2
+.PHONY : webserver2
 
 # fast build rule for target.
-webserver/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/build
-.PHONY : webserver/fast
+webserver2/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/build
+.PHONY : webserver2/fast
 
-http/Msimon/Connections.o: http/Msimon/Connections.cpp.o
+cgi/HandlerCGI.o: cgi/HandlerCGI.cpp.o
 
-.PHONY : http/Msimon/Connections.o
-
-# target to build an object file
-http/Msimon/Connections.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/Connections.cpp.o
-.PHONY : http/Msimon/Connections.cpp.o
-
-http/Msimon/Connections.i: http/Msimon/Connections.cpp.i
-
-.PHONY : http/Msimon/Connections.i
-
-# target to preprocess a source file
-http/Msimon/Connections.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/Connections.cpp.i
-.PHONY : http/Msimon/Connections.cpp.i
-
-http/Msimon/Connections.s: http/Msimon/Connections.cpp.s
-
-.PHONY : http/Msimon/Connections.s
-
-# target to generate assembly for a file
-http/Msimon/Connections.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/Connections.cpp.s
-.PHONY : http/Msimon/Connections.cpp.s
-
-http/Msimon/Content/AContent.o: http/Msimon/Content/AContent.cpp.o
-
-.PHONY : http/Msimon/Content/AContent.o
+.PHONY : cgi/HandlerCGI.o
 
 # target to build an object file
-http/Msimon/Content/AContent.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/Content/AContent.cpp.o
-.PHONY : http/Msimon/Content/AContent.cpp.o
+cgi/HandlerCGI.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/cgi/HandlerCGI.cpp.o
+.PHONY : cgi/HandlerCGI.cpp.o
 
-http/Msimon/Content/AContent.i: http/Msimon/Content/AContent.cpp.i
+cgi/HandlerCGI.i: cgi/HandlerCGI.cpp.i
 
-.PHONY : http/Msimon/Content/AContent.i
+.PHONY : cgi/HandlerCGI.i
 
 # target to preprocess a source file
-http/Msimon/Content/AContent.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/Content/AContent.cpp.i
-.PHONY : http/Msimon/Content/AContent.cpp.i
+cgi/HandlerCGI.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/cgi/HandlerCGI.cpp.i
+.PHONY : cgi/HandlerCGI.cpp.i
 
-http/Msimon/Content/AContent.s: http/Msimon/Content/AContent.cpp.s
+cgi/HandlerCGI.s: cgi/HandlerCGI.cpp.s
 
-.PHONY : http/Msimon/Content/AContent.s
+.PHONY : cgi/HandlerCGI.s
 
 # target to generate assembly for a file
-http/Msimon/Content/AContent.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/Content/AContent.cpp.s
-.PHONY : http/Msimon/Content/AContent.cpp.s
+cgi/HandlerCGI.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/cgi/HandlerCGI.cpp.s
+.PHONY : cgi/HandlerCGI.cpp.s
 
-http/Msimon/Content/ContentFile.o: http/Msimon/Content/ContentFile.cpp.o
+http/Connect.o: http/Connect.cpp.o
 
-.PHONY : http/Msimon/Content/ContentFile.o
+.PHONY : http/Connect.o
 
 # target to build an object file
-http/Msimon/Content/ContentFile.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/Content/ContentFile.cpp.o
-.PHONY : http/Msimon/Content/ContentFile.cpp.o
+http/Connect.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Connect.cpp.o
+.PHONY : http/Connect.cpp.o
 
-http/Msimon/Content/ContentFile.i: http/Msimon/Content/ContentFile.cpp.i
+http/Connect.i: http/Connect.cpp.i
 
-.PHONY : http/Msimon/Content/ContentFile.i
+.PHONY : http/Connect.i
 
 # target to preprocess a source file
-http/Msimon/Content/ContentFile.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/Content/ContentFile.cpp.i
-.PHONY : http/Msimon/Content/ContentFile.cpp.i
+http/Connect.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Connect.cpp.i
+.PHONY : http/Connect.cpp.i
 
-http/Msimon/Content/ContentFile.s: http/Msimon/Content/ContentFile.cpp.s
+http/Connect.s: http/Connect.cpp.s
 
-.PHONY : http/Msimon/Content/ContentFile.s
+.PHONY : http/Connect.s
 
 # target to generate assembly for a file
-http/Msimon/Content/ContentFile.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/Content/ContentFile.cpp.s
-.PHONY : http/Msimon/Content/ContentFile.cpp.s
+http/Connect.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Connect.cpp.s
+.PHONY : http/Connect.cpp.s
 
-http/Msimon/Content/ContentSocket.o: http/Msimon/Content/ContentSocket.cpp.o
+http/Connections.o: http/Connections.cpp.o
 
-.PHONY : http/Msimon/Content/ContentSocket.o
+.PHONY : http/Connections.o
 
 # target to build an object file
-http/Msimon/Content/ContentSocket.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/Content/ContentSocket.cpp.o
-.PHONY : http/Msimon/Content/ContentSocket.cpp.o
+http/Connections.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Connections.cpp.o
+.PHONY : http/Connections.cpp.o
 
-http/Msimon/Content/ContentSocket.i: http/Msimon/Content/ContentSocket.cpp.i
+http/Connections.i: http/Connections.cpp.i
 
-.PHONY : http/Msimon/Content/ContentSocket.i
+.PHONY : http/Connections.i
 
 # target to preprocess a source file
-http/Msimon/Content/ContentSocket.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/Content/ContentSocket.cpp.i
-.PHONY : http/Msimon/Content/ContentSocket.cpp.i
+http/Connections.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Connections.cpp.i
+.PHONY : http/Connections.cpp.i
 
-http/Msimon/Content/ContentSocket.s: http/Msimon/Content/ContentSocket.cpp.s
+http/Connections.s: http/Connections.cpp.s
 
-.PHONY : http/Msimon/Content/ContentSocket.s
+.PHONY : http/Connections.s
 
 # target to generate assembly for a file
-http/Msimon/Content/ContentSocket.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/Content/ContentSocket.cpp.s
-.PHONY : http/Msimon/Content/ContentSocket.cpp.s
+http/Connections.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Connections.cpp.s
+.PHONY : http/Connections.cpp.s
 
-http/Msimon/Request.o: http/Msimon/Request.cpp.o
+http/Content/AContent.o: http/Content/AContent.cpp.o
 
-.PHONY : http/Msimon/Request.o
+.PHONY : http/Content/AContent.o
 
 # target to build an object file
-http/Msimon/Request.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/Request.cpp.o
-.PHONY : http/Msimon/Request.cpp.o
+http/Content/AContent.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Content/AContent.cpp.o
+.PHONY : http/Content/AContent.cpp.o
 
-http/Msimon/Request.i: http/Msimon/Request.cpp.i
+http/Content/AContent.i: http/Content/AContent.cpp.i
 
-.PHONY : http/Msimon/Request.i
+.PHONY : http/Content/AContent.i
 
 # target to preprocess a source file
-http/Msimon/Request.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/Request.cpp.i
-.PHONY : http/Msimon/Request.cpp.i
+http/Content/AContent.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Content/AContent.cpp.i
+.PHONY : http/Content/AContent.cpp.i
 
-http/Msimon/Request.s: http/Msimon/Request.cpp.s
+http/Content/AContent.s: http/Content/AContent.cpp.s
 
-.PHONY : http/Msimon/Request.s
+.PHONY : http/Content/AContent.s
 
 # target to generate assembly for a file
-http/Msimon/Request.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/Request.cpp.s
-.PHONY : http/Msimon/Request.cpp.s
+http/Content/AContent.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Content/AContent.cpp.s
+.PHONY : http/Content/AContent.cpp.s
 
-http/Msimon/RequestData.o: http/Msimon/RequestData.cpp.o
+http/Content/ContentFile.o: http/Content/ContentFile.cpp.o
 
-.PHONY : http/Msimon/RequestData.o
+.PHONY : http/Content/ContentFile.o
 
 # target to build an object file
-http/Msimon/RequestData.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/RequestData.cpp.o
-.PHONY : http/Msimon/RequestData.cpp.o
+http/Content/ContentFile.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Content/ContentFile.cpp.o
+.PHONY : http/Content/ContentFile.cpp.o
 
-http/Msimon/RequestData.i: http/Msimon/RequestData.cpp.i
+http/Content/ContentFile.i: http/Content/ContentFile.cpp.i
 
-.PHONY : http/Msimon/RequestData.i
+.PHONY : http/Content/ContentFile.i
 
 # target to preprocess a source file
-http/Msimon/RequestData.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/RequestData.cpp.i
-.PHONY : http/Msimon/RequestData.cpp.i
+http/Content/ContentFile.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Content/ContentFile.cpp.i
+.PHONY : http/Content/ContentFile.cpp.i
 
-http/Msimon/RequestData.s: http/Msimon/RequestData.cpp.s
+http/Content/ContentFile.s: http/Content/ContentFile.cpp.s
 
-.PHONY : http/Msimon/RequestData.s
+.PHONY : http/Content/ContentFile.s
 
 # target to generate assembly for a file
-http/Msimon/RequestData.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/RequestData.cpp.s
-.PHONY : http/Msimon/RequestData.cpp.s
+http/Content/ContentFile.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Content/ContentFile.cpp.s
+.PHONY : http/Content/ContentFile.cpp.s
 
-http/Msimon/Responce.o: http/Msimon/Responce.cpp.o
+http/Content/ContentSocket.o: http/Content/ContentSocket.cpp.o
 
-.PHONY : http/Msimon/Responce.o
+.PHONY : http/Content/ContentSocket.o
 
 # target to build an object file
-http/Msimon/Responce.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/Responce.cpp.o
-.PHONY : http/Msimon/Responce.cpp.o
+http/Content/ContentSocket.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Content/ContentSocket.cpp.o
+.PHONY : http/Content/ContentSocket.cpp.o
 
-http/Msimon/Responce.i: http/Msimon/Responce.cpp.i
+http/Content/ContentSocket.i: http/Content/ContentSocket.cpp.i
 
-.PHONY : http/Msimon/Responce.i
+.PHONY : http/Content/ContentSocket.i
 
 # target to preprocess a source file
-http/Msimon/Responce.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/Responce.cpp.i
-.PHONY : http/Msimon/Responce.cpp.i
+http/Content/ContentSocket.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Content/ContentSocket.cpp.i
+.PHONY : http/Content/ContentSocket.cpp.i
 
-http/Msimon/Responce.s: http/Msimon/Responce.cpp.s
+http/Content/ContentSocket.s: http/Content/ContentSocket.cpp.s
 
-.PHONY : http/Msimon/Responce.s
+.PHONY : http/Content/ContentSocket.s
 
 # target to generate assembly for a file
-http/Msimon/Responce.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/http/Msimon/Responce.cpp.s
-.PHONY : http/Msimon/Responce.cpp.s
+http/Content/ContentSocket.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Content/ContentSocket.cpp.s
+.PHONY : http/Content/ContentSocket.cpp.s
+
+http/Request.o: http/Request.cpp.o
+
+.PHONY : http/Request.o
+
+# target to build an object file
+http/Request.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Request.cpp.o
+.PHONY : http/Request.cpp.o
+
+http/Request.i: http/Request.cpp.i
+
+.PHONY : http/Request.i
+
+# target to preprocess a source file
+http/Request.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Request.cpp.i
+.PHONY : http/Request.cpp.i
+
+http/Request.s: http/Request.cpp.s
+
+.PHONY : http/Request.s
+
+# target to generate assembly for a file
+http/Request.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Request.cpp.s
+.PHONY : http/Request.cpp.s
+
+http/RequestData.o: http/RequestData.cpp.o
+
+.PHONY : http/RequestData.o
+
+# target to build an object file
+http/RequestData.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/RequestData.cpp.o
+.PHONY : http/RequestData.cpp.o
+
+http/RequestData.i: http/RequestData.cpp.i
+
+.PHONY : http/RequestData.i
+
+# target to preprocess a source file
+http/RequestData.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/RequestData.cpp.i
+.PHONY : http/RequestData.cpp.i
+
+http/RequestData.s: http/RequestData.cpp.s
+
+.PHONY : http/RequestData.s
+
+# target to generate assembly for a file
+http/RequestData.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/RequestData.cpp.s
+.PHONY : http/RequestData.cpp.s
+
+http/Responce.o: http/Responce.cpp.o
+
+.PHONY : http/Responce.o
+
+# target to build an object file
+http/Responce.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Responce.cpp.o
+.PHONY : http/Responce.cpp.o
+
+http/Responce.i: http/Responce.cpp.i
+
+.PHONY : http/Responce.i
+
+# target to preprocess a source file
+http/Responce.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Responce.cpp.i
+.PHONY : http/Responce.cpp.i
+
+http/Responce.s: http/Responce.cpp.s
+
+.PHONY : http/Responce.s
+
+# target to generate assembly for a file
+http/Responce.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/http/Responce.cpp.s
+.PHONY : http/Responce.cpp.s
 
 main.o: main.cpp.o
 
@@ -337,7 +391,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -346,7 +400,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -355,7 +409,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 parser/ConfigParser.o: parser/ConfigParser.cpp.o
@@ -364,7 +418,7 @@ parser/ConfigParser.o: parser/ConfigParser.cpp.o
 
 # target to build an object file
 parser/ConfigParser.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/parser/ConfigParser.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/parser/ConfigParser.cpp.o
 .PHONY : parser/ConfigParser.cpp.o
 
 parser/ConfigParser.i: parser/ConfigParser.cpp.i
@@ -373,7 +427,7 @@ parser/ConfigParser.i: parser/ConfigParser.cpp.i
 
 # target to preprocess a source file
 parser/ConfigParser.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/parser/ConfigParser.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/parser/ConfigParser.cpp.i
 .PHONY : parser/ConfigParser.cpp.i
 
 parser/ConfigParser.s: parser/ConfigParser.cpp.s
@@ -382,8 +436,35 @@ parser/ConfigParser.s: parser/ConfigParser.cpp.s
 
 # target to generate assembly for a file
 parser/ConfigParser.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/parser/ConfigParser.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/parser/ConfigParser.cpp.s
 .PHONY : parser/ConfigParser.cpp.s
+
+parser/GetServer.o: parser/GetServer.cpp.o
+
+.PHONY : parser/GetServer.o
+
+# target to build an object file
+parser/GetServer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/parser/GetServer.cpp.o
+.PHONY : parser/GetServer.cpp.o
+
+parser/GetServer.i: parser/GetServer.cpp.i
+
+.PHONY : parser/GetServer.i
+
+# target to preprocess a source file
+parser/GetServer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/parser/GetServer.cpp.i
+.PHONY : parser/GetServer.cpp.i
+
+parser/GetServer.s: parser/GetServer.cpp.s
+
+.PHONY : parser/GetServer.s
+
+# target to generate assembly for a file
+parser/GetServer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/parser/GetServer.cpp.s
+.PHONY : parser/GetServer.cpp.s
 
 parser/Route.o: parser/Route.cpp.o
 
@@ -391,7 +472,7 @@ parser/Route.o: parser/Route.cpp.o
 
 # target to build an object file
 parser/Route.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/parser/Route.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/parser/Route.cpp.o
 .PHONY : parser/Route.cpp.o
 
 parser/Route.i: parser/Route.cpp.i
@@ -400,7 +481,7 @@ parser/Route.i: parser/Route.cpp.i
 
 # target to preprocess a source file
 parser/Route.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/parser/Route.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/parser/Route.cpp.i
 .PHONY : parser/Route.cpp.i
 
 parser/Route.s: parser/Route.cpp.s
@@ -409,7 +490,7 @@ parser/Route.s: parser/Route.cpp.s
 
 # target to generate assembly for a file
 parser/Route.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/parser/Route.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/parser/Route.cpp.s
 .PHONY : parser/Route.cpp.s
 
 parser/ServerConfig.o: parser/ServerConfig.cpp.o
@@ -418,7 +499,7 @@ parser/ServerConfig.o: parser/ServerConfig.cpp.o
 
 # target to build an object file
 parser/ServerConfig.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/parser/ServerConfig.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/parser/ServerConfig.cpp.o
 .PHONY : parser/ServerConfig.cpp.o
 
 parser/ServerConfig.i: parser/ServerConfig.cpp.i
@@ -427,7 +508,7 @@ parser/ServerConfig.i: parser/ServerConfig.cpp.i
 
 # target to preprocess a source file
 parser/ServerConfig.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/parser/ServerConfig.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/parser/ServerConfig.cpp.i
 .PHONY : parser/ServerConfig.cpp.i
 
 parser/ServerConfig.s: parser/ServerConfig.cpp.s
@@ -436,7 +517,7 @@ parser/ServerConfig.s: parser/ServerConfig.cpp.s
 
 # target to generate assembly for a file
 parser/ServerConfig.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/parser/ServerConfig.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/parser/ServerConfig.cpp.s
 .PHONY : parser/ServerConfig.cpp.s
 
 parser/utils.o: parser/utils.cpp.o
@@ -445,7 +526,7 @@ parser/utils.o: parser/utils.cpp.o
 
 # target to build an object file
 parser/utils.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/parser/utils.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/parser/utils.cpp.o
 .PHONY : parser/utils.cpp.o
 
 parser/utils.i: parser/utils.cpp.i
@@ -454,7 +535,7 @@ parser/utils.i: parser/utils.cpp.i
 
 # target to preprocess a source file
 parser/utils.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/parser/utils.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/parser/utils.cpp.i
 .PHONY : parser/utils.cpp.i
 
 parser/utils.s: parser/utils.cpp.s
@@ -463,7 +544,7 @@ parser/utils.s: parser/utils.cpp.s
 
 # target to generate assembly for a file
 parser/utils.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/parser/utils.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/parser/utils.cpp.s
 .PHONY : parser/utils.cpp.s
 
 server/RequestHandler.o: server/RequestHandler.cpp.o
@@ -472,7 +553,7 @@ server/RequestHandler.o: server/RequestHandler.cpp.o
 
 # target to build an object file
 server/RequestHandler.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/server/RequestHandler.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/server/RequestHandler.cpp.o
 .PHONY : server/RequestHandler.cpp.o
 
 server/RequestHandler.i: server/RequestHandler.cpp.i
@@ -481,7 +562,7 @@ server/RequestHandler.i: server/RequestHandler.cpp.i
 
 # target to preprocess a source file
 server/RequestHandler.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/server/RequestHandler.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/server/RequestHandler.cpp.i
 .PHONY : server/RequestHandler.cpp.i
 
 server/RequestHandler.s: server/RequestHandler.cpp.s
@@ -490,7 +571,7 @@ server/RequestHandler.s: server/RequestHandler.cpp.s
 
 # target to generate assembly for a file
 server/RequestHandler.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/server/RequestHandler.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/server/RequestHandler.cpp.s
 .PHONY : server/RequestHandler.cpp.s
 
 server/ServerManager.o: server/ServerManager.cpp.o
@@ -499,7 +580,7 @@ server/ServerManager.o: server/ServerManager.cpp.o
 
 # target to build an object file
 server/ServerManager.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/server/ServerManager.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/server/ServerManager.cpp.o
 .PHONY : server/ServerManager.cpp.o
 
 server/ServerManager.i: server/ServerManager.cpp.i
@@ -508,7 +589,7 @@ server/ServerManager.i: server/ServerManager.cpp.i
 
 # target to preprocess a source file
 server/ServerManager.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/server/ServerManager.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/server/ServerManager.cpp.i
 .PHONY : server/ServerManager.cpp.i
 
 server/ServerManager.s: server/ServerManager.cpp.s
@@ -517,7 +598,7 @@ server/ServerManager.s: server/ServerManager.cpp.s
 
 # target to generate assembly for a file
 server/ServerManager.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/server/ServerManager.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/server/ServerManager.cpp.s
 .PHONY : server/ServerManager.cpp.s
 
 server/Socket.o: server/Socket.cpp.o
@@ -526,7 +607,7 @@ server/Socket.o: server/Socket.cpp.o
 
 # target to build an object file
 server/Socket.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/server/Socket.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/server/Socket.cpp.o
 .PHONY : server/Socket.cpp.o
 
 server/Socket.i: server/Socket.cpp.i
@@ -535,7 +616,7 @@ server/Socket.i: server/Socket.cpp.i
 
 # target to preprocess a source file
 server/Socket.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/server/Socket.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/server/Socket.cpp.i
 .PHONY : server/Socket.cpp.i
 
 server/Socket.s: server/Socket.cpp.s
@@ -544,7 +625,7 @@ server/Socket.s: server/Socket.cpp.s
 
 # target to generate assembly for a file
 server/Socket.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver.dir/build.make CMakeFiles/webserver.dir/server/Socket.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/webserver2.dir/build.make CMakeFiles/webserver2.dir/server/Socket.cpp.s
 .PHONY : server/Socket.cpp.s
 
 # Help Target
@@ -555,34 +636,43 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... webserver"
-	@echo "... http/Msimon/Connections.o"
-	@echo "... http/Msimon/Connections.i"
-	@echo "... http/Msimon/Connections.s"
-	@echo "... http/Msimon/Content/AContent.o"
-	@echo "... http/Msimon/Content/AContent.i"
-	@echo "... http/Msimon/Content/AContent.s"
-	@echo "... http/Msimon/Content/ContentFile.o"
-	@echo "... http/Msimon/Content/ContentFile.i"
-	@echo "... http/Msimon/Content/ContentFile.s"
-	@echo "... http/Msimon/Content/ContentSocket.o"
-	@echo "... http/Msimon/Content/ContentSocket.i"
-	@echo "... http/Msimon/Content/ContentSocket.s"
-	@echo "... http/Msimon/Request.o"
-	@echo "... http/Msimon/Request.i"
-	@echo "... http/Msimon/Request.s"
-	@echo "... http/Msimon/RequestData.o"
-	@echo "... http/Msimon/RequestData.i"
-	@echo "... http/Msimon/RequestData.s"
-	@echo "... http/Msimon/Responce.o"
-	@echo "... http/Msimon/Responce.i"
-	@echo "... http/Msimon/Responce.s"
+	@echo "... webserver2"
+	@echo "... cgi/HandlerCGI.o"
+	@echo "... cgi/HandlerCGI.i"
+	@echo "... cgi/HandlerCGI.s"
+	@echo "... http/Connect.o"
+	@echo "... http/Connect.i"
+	@echo "... http/Connect.s"
+	@echo "... http/Connections.o"
+	@echo "... http/Connections.i"
+	@echo "... http/Connections.s"
+	@echo "... http/Content/AContent.o"
+	@echo "... http/Content/AContent.i"
+	@echo "... http/Content/AContent.s"
+	@echo "... http/Content/ContentFile.o"
+	@echo "... http/Content/ContentFile.i"
+	@echo "... http/Content/ContentFile.s"
+	@echo "... http/Content/ContentSocket.o"
+	@echo "... http/Content/ContentSocket.i"
+	@echo "... http/Content/ContentSocket.s"
+	@echo "... http/Request.o"
+	@echo "... http/Request.i"
+	@echo "... http/Request.s"
+	@echo "... http/RequestData.o"
+	@echo "... http/RequestData.i"
+	@echo "... http/RequestData.s"
+	@echo "... http/Responce.o"
+	@echo "... http/Responce.i"
+	@echo "... http/Responce.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
 	@echo "... parser/ConfigParser.o"
 	@echo "... parser/ConfigParser.i"
 	@echo "... parser/ConfigParser.s"
+	@echo "... parser/GetServer.o"
+	@echo "... parser/GetServer.i"
+	@echo "... parser/GetServer.s"
 	@echo "... parser/Route.o"
 	@echo "... parser/Route.i"
 	@echo "... parser/Route.s"

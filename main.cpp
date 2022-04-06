@@ -31,24 +31,24 @@ void showInfo(ConfigParser& config) {
 		std::cout << std::endl;
 
 		//Error pages
-		std::map<int, std::string> errorPages = it->getErrorPages();
-		for (std::map<int, std::string>::const_iterator it = errorPages.begin();
-			 it != errorPages.end(); ++it) {
-			std::cout << it->first << " " << it->second << std::endl;
-		}
+//		std::map<int, std::string> errorPages = it->getErrorPages();
+//		for (std::map<int, std::string>::const_iterator it = errorPages.begin();
+//			 it != errorPages.end(); ++it) {
+//			std::cout << it->first << " " << it->second << std::endl;
+//		}
 
 		//Default pages (index)
-		std::set<std::string> defaultPages = it->getDefaultPages();
-		std::cout << "default pages ";
-		for (std::set<std::string>::iterator
-					 it = defaultPages.begin(); it != defaultPages.end(); ++it) {
-			std::cout <<  *it << " ";
-		}
-		std::cout << std::endl;
+//		std::set<std::string> defaultPages = it->getDefaultPages();
+//		std::cout << "default pages ";
+//		for (std::set<std::string>::iterator
+//					 it = defaultPages.begin(); it != defaultPages.end(); ++it) {
+//			std::cout <<  *it << " ";
+//		}
+//		std::cout << std::endl;
 
 		//Server root
-		std::string root = it->getRootOfServer();
-		std::cout << "root " << root << std::endl;
+//		std::string root = it->getRootOfServer();
+//		std::cout << "root " << root << std::endl;
 
 		//Body size limit
 		int limitBodySize = it->getBodySizeLimit();
