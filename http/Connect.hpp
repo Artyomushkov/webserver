@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 18:44:34 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/04 10:19:13 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/10 07:56:13 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,15 @@ class Connect {
 		int				statusReq;
 		const Route*	location;
 		ContentSocket	contentReq;
-		Content			unChunked;
+//		Content			unChunked;
+		struct  unChunked_s{
+            unChunked_s(): size(0) {}
+            Content	content;
+            size_t	size;
+        } unChunked;
 		RequestData		head;
 		std::string		get_str;
+		std::string		full_file_path;
 		static std::string	down_str(std::string str);
 
 	private:

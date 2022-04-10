@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 15:04:37 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/05 20:06:16 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/10 14:39:30 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,11 +166,11 @@ std::string	Responce::getType(std::string const& path)
 
 void	Responce::sending(Connect* conn)
 {
-	std::string	file_path;
 	std::string	head;
-	
+
 	if (conn->location)
 	{
+		conn->full_file_path = "";
 		if (conn->location->getRedirection() != "")
 		{
 			if (conn->location->getRoute() == conn->location->getRedirection())
@@ -181,7 +181,7 @@ void	Responce::sending(Connect* conn)
 			head += "?" + conn->get_str;
 			head +="\r\n\r\n";
 			send(conn->fds, head.data(), head.length(), 0);
-			send(conn->fds, "\0" , 1 , 0);
+//			send(conn->fds, "\0" , 1 , 0);
 			return ;
 		}
 		if (conn->location->getRoute() == conn->head.get("uri"))
@@ -191,36 +191,39 @@ void	Responce::sending(Connect* conn)
 			std::ifstream		file_index;
 			while (tmp_set_it != tmp_set.end())
 			{
-				file_path = conn->location->getRoot() + "/" + *tmp_set_it;
-				file_index.open(file_path);
+				conn->full_file_path = conn->location->getRoot() + "/" + *tmp_set_it;
+				file_index.open(conn->full_file_path);
 				if (file_index.is_open())
 				{
 					file_index.close();
 					break;
 				}
 				file_index.close();
-				file_path = "";
+				conn->full_file_path = "";
 				tmp_set_it++;
 			}
 		}
-		if (file_path == "" && conn->location->getAutoindex()
+		if (conn->full_file_path == "" && conn->location->getAutoindex()
 			&& conn->head.get("uri").data()[conn->head.get("uri").length() - 1] == '/')
 		{
 			send_directories(conn);
 			return ;
 		}
-		if (file_path == "")
-			file_path = conn->location->getRoot() + "/" + conn->head.get("uri").substr(conn->location->getRoute().length());			
 
-		ContentFile content;
+		if (conn->full_file_path == "")
+		{
+			conn->full_file_path = conn->head.get("uri").substr(conn->location->getRoute().length());
+			if (conn->full_file_path.length() == 0 || conn->full_file_path[0] != '/')
+				conn->full_file_path = "/" + conn->full_file_path;
+			conn->full_file_path = conn->location->getRoot() + conn->full_file_path;
+		}
+		
 		HandlerCGI cgi;
-		if (conn->location->getRoute() == "/cgi-bin/") {
-			head = "HTTP/1.1 200 " + _code_error_text.find("200")->second + "\r\n";
-			head += "Server: " + std::string(SERVER_NAME) + "\r\n";
-			head += "Connection: keep-alive\r\n";
-			send(conn->fds, head.data(), head.length(), 0);
-			content = cgi.handleCGI(conn);
-			send(conn->fds, content.get_content(), content.len(), 0);
+		std::map<std::string, std::string>				cgi_map = conn->location->getCGI();
+		std::map<std::string, std::string>::iterator	cgi_it = cgi_map.find("." + getExtension(conn->head.get("uri")));
+		if (cgi_it != cgi_map.end())
+		{
+			cgi.handleCGI(conn, cgi_it->second);
 			return ;
 		}
 
@@ -234,18 +237,21 @@ void	Responce::sending(Connect* conn)
 			deleteFile(conn);
 			return ;
 		}
-		content.read(file_path);
+
+		ContentFile content;
+		if (conn->head.get("method") != "HEAD")
+			content.read(conn->full_file_path);
 		head = "HTTP/1.1 200 " + _code_error_text.find("200")->second + "\r\n";
 		head += "Server: " + std::string(SERVER_NAME) + "\r\n";
 		head += "Connection: keep-alive\r\n";
-		head += "Content-Type: " + getType(file_path) + "\r\n";
+		head += "Content-Type: " + getType(conn->full_file_path) + "\r\n";
 		if (content.len())
 			head += "Content-Length: " + std::to_string(content.len()) + "\r\n";
 		head +="\r\n";
 		send(conn->fds, head.data(), head.length(), 0);
 		if (content.len())
 			send(conn->fds, content.get_content(), content.len(), 0);
-		send(conn->fds, "\0" , 1 , 0);
+//		send(conn->fds, "\0" , 1 , 0);
 	}
 	else
 		throw (std::runtime_error("503"));
@@ -253,6 +259,7 @@ void	Responce::sending(Connect* conn)
 
 void	Responce::sending(Connect* conn, std::string const& http_code, bool f_body)
 {
+	std::cout << http_code << " CODE_HTTP\n";
 	try {
 		std::map<std::string, std::string>::iterator	it = _code_error_text.find(http_code);
 		if (it == _code_error_text.end() || it == _code_error_text.find("200"))		
@@ -271,6 +278,8 @@ void	Responce::sending(Connect* conn, std::string const& http_code, bool f_body)
 		}
 		
 		std::string	content;
+		if (conn->head.get("method") == "HEAD")
+			f_body = false;
 		content = "HTTP/1.1 " + http_code + " " + it->second + "\r\n";
 		if (f_body)
 			content += "Content-Type: text/html; charset=UTF-8\r\n";
@@ -300,8 +309,8 @@ void	Responce::sending(Connect* conn, std::string const& http_code, bool f_body)
 				send(conn->fds, content.data(), content.length(), 0);
 			}
 		}
-		if (f_body)
-			send(conn->fds, "\0", 1, 0);
+//		if (f_body)
+//			send(conn->fds, "\0", 1, 0);
 	}
 	catch (std::exception &e) {
 		std::cerr << "failed to send error to client\n";
@@ -323,8 +332,11 @@ void	Responce::loadFile(Connect* conn)
 	put_file.open(path);
 	if (put_file.is_open())
 	{
-		if (conn->unChunked.len())
-			put_file.write(conn->unChunked.get_content(), conn->unChunked.len());
+
+		std::cout << conn->unChunked.content.len() << "###\n";//
+
+		if (conn->unChunked.content.len())
+			put_file.write(conn->unChunked.content.get_content(), conn->unChunked.content.len());
 		else
 			put_file.write(conn->contentReq.get_content(), conn->contentReq.len());
 		put_file.close();
@@ -440,5 +452,5 @@ void	Responce::send_directories(Connect* conn)
 	send(conn->fds, files_content.data(), files_content.length(), 0);
 	content = "<div style=\"width: 100%;height: 0px;border: solid 1px gray;margin-top: 20px;margin-bottom: 20px;\"></div>";
 	send(conn->fds, content.data(), content.length(), 0);
-	send(conn->fds, "\0", 1, 0);
+//	send(conn->fds, "\0", 1, 0);
 }

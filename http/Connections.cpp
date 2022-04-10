@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:37:26 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/04 10:19:13 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/09 09:45:23 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,7 @@ int	Connections::request(int fds, std::vector<ServerConfig> const &srvs_config)
 
 	if (!conn)
 	{
-		try {
-			_connections.insert(std::pair<int, Connect> (fds, Connect(fds)));
-		}
-		catch (std::exception &e) {
-			std::cout << e.what() << "\n";
-		}
+		_connections.insert(std::pair<int, Connect> (fds, Connect(fds)));
 		conn = getConnect(fds);
 		if (!conn)
 		{
