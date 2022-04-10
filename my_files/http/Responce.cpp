@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 15:04:37 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/10 12:21:19 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/10 14:39:30 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,6 +259,7 @@ void	Responce::sending(Connect* conn)
 
 void	Responce::sending(Connect* conn, std::string const& http_code, bool f_body)
 {
+	std::cout << http_code << " CODE_HTTP\n";
 	try {
 		std::map<std::string, std::string>::iterator	it = _code_error_text.find(http_code);
 		if (it == _code_error_text.end() || it == _code_error_text.find("200"))		

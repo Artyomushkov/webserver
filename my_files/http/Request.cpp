@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 09:08:21 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/10 11:52:30 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/10 14:28:44 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ bool	Request::chunked_decoding(Connect* conn)
 	std::string		size_str;
 	unsigned long	size;
 
-	std::cout << conn->unChunked.size << ", " << conn->unChunked.content.len() << ", " << conn->contentReq.len() << "\n";
+//	std::cout << conn->unChunked.size << ", " << conn->unChunked.content.len() << ", " << conn->contentReq.len() << "\n";
 
 	if (conn->contentReq.len() <= conn->unChunked.size)
 	{
@@ -87,11 +87,23 @@ bool	Request::chunked_decoding(Connect* conn)
 		conn->unChunked.size = 0;
 	}
 
+	while (*(conn->contentReq.get_content() + pos) == '\r'
+			|| *(conn->contentReq.get_content() + pos) == '\n')
+		pos++;
+/*	std::cout << pos << " pos\n";
+	if (conn->contentReq.len() < 10)
+	{
+		conn->contentReq.print();
+		std::cout << "&&&\n";
+	}*/
 	while (pos < conn->contentReq.len())
 	{
 		size_str = conn->contentReq.get_line(pos);
-		std::cout << size_str << "\n";
-		if (*(conn->contentReq.get_content() + pos + size_str.length()) != '\r')
+//		std::cout << size_str << " @@@\n";
+		if (size_str.length() == conn->contentReq.len() ||
+			size_str[size_str.length() - 1] == '\r' ||
+			*(conn->contentReq.get_content() + pos + size_str.length()) != '\r'
+			)
 		{
 			Content	buf;
 			buf.push_back(conn->contentReq.get_content() + pos, conn->contentReq.len() - pos);
