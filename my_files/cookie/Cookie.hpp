@@ -16,9 +16,11 @@ class Cookie
 	std::string get_time(int);
 
 public:
+	Cookie() {}
 	Cookie(std::string name, std::string value, std::string expires);
 	Cookie(std::string name, std::string value);
 	std::string set_cookie_string();
+	std::string set_cookie_string(std::string session_id, std::string num);
 	std::string delete_cookie_string();
 };
 

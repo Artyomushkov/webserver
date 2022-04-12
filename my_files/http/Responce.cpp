@@ -251,6 +251,7 @@ void	Responce::sending(Connect* conn)
 			content.read(conn->full_file_path);
 		head = "HTTP/1.1 200 " + _code_error_text.find("200")->second + "\r\n";
 		head += "Server: " + std::string(SERVER_NAME) + "\r\n";
+		head += _cookie.set_cookie_string("session_id", "1") + "\r\n";
 		head += "Connection: keep-alive\r\n";
 		head += "Content-Type: " + getType(conn->full_file_path) + "\r\n";
 		head += "Content-Length: " + std::to_string(content.len()) + "\r\n";

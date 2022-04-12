@@ -9,6 +9,6 @@ text2 = form.getfirst("test2", "not set")
 text1 = html.escape(text1)
 text2 = html.escape(text2)
 
-print("Content-type: text/html\r\n\r")
+print("Content-type: text/html\n")
 print("First name: ", text1)
 print("Second name: ", text2)

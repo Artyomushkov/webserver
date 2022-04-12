@@ -1,7 +1,5 @@
 #!/usr/bin/perl -w
-
-print "Content-Type: text/html\r\n";
-print "\r\n";
+print "Content-type: text/html\n\n";
 foreach $key (sort keys(%ENV)) {
   print "$key = $ENV{$key}<p>";
 }

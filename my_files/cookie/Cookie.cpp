@@ -21,6 +21,12 @@ std::string Cookie::set_cookie_string()
 	std::string cookie_string = "Set-Cookie: "+ name + "=" + value + ";";
 	return cookie_string;
 }
+std::string Cookie::set_cookie_string(std::string session_id, std::string num)
+{
+	std::string cookie_string = "Set-Cookie: "+ session_id + "=" + num + ";";
+	return cookie_string;
+}
+
 std::string Cookie::delete_cookie_string()
 {
 	std::string cookie_string = "Set-Cookie: "+ name + "=" + value + "=; "

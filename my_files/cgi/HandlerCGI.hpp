@@ -17,14 +17,14 @@ class HandlerCGI {
 
 public:
 	void handleCGI(Connect* conn, std::string const &path_interpritator,
-				   std::string& body, std::string& head);
+				   std::string& head, std::string& body);
+	std::string getInterpretator(Connect *conn);
 
 private:
 	std::string getServerNameFromHost(const std::string& host);
 	std::string getPortFromHost(const std::string& host);
 	std::string getScriptFromPath(const std::string& path);
 	void forkCGI(int fdIn[2], int fdOut[2], char **env, Connect* conn, std::string const &path_interpritator);
-	std::string getInterpretator(const std::string& script);
 	std::string myToString(int num);
 	std::string	form_env_string(std::string name, std::string param);
 	std::vector<std::string> init_env(Connect* conn);

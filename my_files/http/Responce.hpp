@@ -28,6 +28,8 @@
 # include "Connect.hpp"
 # include "Content/ContentFile.hpp"
 # include "HandlerCGI.hpp"
+# include "Session.hpp"
+# include "Cookie.hpp"
 
 # define SERVER_NAME "JUM webserv/0.0.1"
 
@@ -42,6 +44,8 @@ class	Responce
 	private:
 		std::map<std::string, std::string>	_code_error_text;
 		std::map<std::string, std::string>	_mime_list;
+		//Session								_session;
+		Cookie								_cookie;
 		std::string							getExtension(std::string const& path);
 		std::string							getType(std::string const& path);
 		void								loadFile(Connect* conn);

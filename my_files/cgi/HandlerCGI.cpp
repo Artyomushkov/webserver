@@ -64,8 +64,7 @@ std::vector<std::string> HandlerCGI::init_env(Connect *conn) {
 	res.push_back(form_env_string("CONTENT_TYPE", conn->head.get("content-type")));
 	res.push_back(form_env_string("CONTENT_LENGTH", conn->head.get
 	("content-length")));
-	res.push_back(form_env_string("HTTP_COOKIE", "name=value; domain=example.com;")); //get form
-	// conn
+	res.push_back(form_env_string("HTTP_COOKIE", conn->head.get("cookies")));
 
 	return res;
 }
@@ -81,20 +80,22 @@ char** HandlerCGI::form_env(std::vector <std::string>& arrEnv) {
 	return env;
 }
 
-std::string HandlerCGI::getInterpretator(const std::string& script) {
+std::string HandlerCGI::getInterpretator(Connect *conn) {
 
-	std::string scriptName = getScriptFromPath(script);
+	std::string scriptName = getScriptFromPath(conn->full_file_path);
 	size_t pos = scriptName.find('.');
 	if (pos == std::string::npos)
-		return std::string("script name error");
-	std::string extension = scriptName.substr(pos + 1, scriptName.length() -
-	pos);
-	if (extension == "py")
-		return (std::string("/usr/local/bin/python3"));
-	else if (extension == "pl")
-		return (std::string("/usr/bin/perl"));
-	else
-		return std::string("script name error");
+		return std::string();
+	std::string extension = scriptName.substr(pos, scriptName.length() -
+	pos + 1);
+	std::map<std::string, std::string>cgiInters = conn->location->getCGI();
+	for (std::map<std::string, std::string>::iterator it = cgiInters.begin();
+	it != cgiInters.end(); ++it) {
+		if (it->first == extension) {
+			return it->second;
+		}
+	}
+	return std::string();
 }
 
 void HandlerCGI::forkCGI(int fdIn[2], int fdOut[2], char **env, Connect*
@@ -113,9 +114,6 @@ conn, std::string const &path_interpritator) {
 	close(fdOut[1]);
 	char* args[3];
 	std::string script = conn->full_file_path;
-//	conn->location->getRoot() +
-//						 conn->head.get("uri"); //fix
-//	std::string interpretator = getInterpretator(script);
 	args[0] = const_cast<char*>(path_interpritator.c_str());
 	args[1] = const_cast<char*>(script.c_str());
 	args[2] = NULL;
@@ -157,16 +155,16 @@ void	HandlerCGI::handleCGI(Connect* conn, std::string const
 	char buffer[4096];
 	size_t ret = 4096;
 	while (ret == 4096) {
+		memset(buffer, 0, 4096);
 		ret = read(fdOut[0], buffer, 4096);
 		str_to_read += buffer;
 	}
-	size_t posOfBody = str_to_read.find("\r\n\r\n");
+	size_t posOfBody = str_to_read.find("\n\n");
+	std::cout << "len "<< posOfBody << std::endl;
 	if (posOfBody == std::string::npos)
 		throw std::runtime_error("400");
 	std::string headFromScript = str_to_read.substr(0, posOfBody);
-	body = str_to_read.substr(posOfBody + 4);
-	/*std::cout << headFromScript << std::endl;
-	std::cout << bodyFromScript << std::endl;*/
+	body = str_to_read.substr(posOfBody + 2);
 	close(fdOut[1]);
 	close(fdOut[0]);
 	close(fdIn[0]);
@@ -177,10 +175,19 @@ void	HandlerCGI::handleCGI(Connect* conn, std::string const
 	head = "HTTP/1.1 200 OK\r\n";
 	head += "Server: " + std::string("JUM webserv/0.0.1") + "\r\n";
 	head += "Connection: keep-alive\r\n";
-	head += headFromScript + "\r\n";
-	head += "Content-Length: " + std::to_string(bodyFromScript.length()) +
+	size_t posNewline = 0;
+	size_t oldPos = 0;
+	while (posNewline != posOfBody) {
+		posNewline = headFromScript.find('\n');
+		if (posNewline == std::string::npos)
+			posNewline = posOfBody;
+		head += headFromScript.substr(oldPos, posNewline - oldPos);
+		head += "\r\n";
+		oldPos = posNewline + 1;
+	}
+	head += "Content-Length: " + std::to_string(body.length()) +
 			"\r\n";
 	head += "\r\n";
 	/*send(conn->fds, head.data(), head.length(), 0);
-	send(conn->fds, bodyFromScript.data(), bodyFromScript.length(), 0);*/
+	send(conn->fds, body.data(), body.length(), 0);*/
 }
