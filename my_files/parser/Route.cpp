@@ -164,15 +164,15 @@ void Route::parseRouteInit(std::ifstream& file,
 	catch (std::logic_error& e) {
 		throw;
 	}
+	_default_pages = default_pages;
+	_error_pages = error_pages;
+	_cgi = cgi;
 	try {
 		parsingProcess(file, command);
 	}
 	catch (std::logic_error& e) {
 		throw;
 	}
-	_default_pages = default_pages;
-	_error_pages = error_pages;
-	_cgi = cgi;
 }
 
 void Route::parseClientMaxBodySize(

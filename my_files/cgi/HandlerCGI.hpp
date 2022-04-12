@@ -16,7 +16,8 @@
 class HandlerCGI {
 
 public:
-	void handleCGI(Connect* conn, std::string const &path_interpritator);
+	void handleCGI(Connect* conn, std::string const &path_interpritator,
+				   std::string& body, std::string& head);
 
 private:
 	std::string getServerNameFromHost(const std::string& host);

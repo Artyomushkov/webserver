@@ -64,6 +64,9 @@ std::vector<std::string> HandlerCGI::init_env(Connect *conn) {
 	res.push_back(form_env_string("CONTENT_TYPE", conn->head.get("content-type")));
 	res.push_back(form_env_string("CONTENT_LENGTH", conn->head.get
 	("content-length")));
+	res.push_back(form_env_string("HTTP_COOKIE", "name=value; domain=example.com;")); //get form
+	// conn
+
 	return res;
 }
 
@@ -124,9 +127,8 @@ conn, std::string const &path_interpritator) {
 	exit(0);
 }
 
-void	HandlerCGI::handleCGI(Connect* conn, std::string const &path_interpritator) {
-
-	Content res;
+void	HandlerCGI::handleCGI(Connect* conn, std::string const
+&path_interpritator, std::string& head, std::string& body) {
 
 	std::vector<std::string> envVec = init_env(conn);
 	char** env = form_env(envVec);
@@ -151,13 +153,20 @@ void	HandlerCGI::handleCGI(Connect* conn, std::string const &path_interpritator)
 	waitpid(proc, &status, 0);
 	if (WEXITSTATUS(status))
 		throw std::runtime_error("500");
-	char buffer[30];
-	size_t ret = 30;
-	while (ret == 30) {
-		memset(buffer, 0, 30);
-		ret = read(fdOut[0], buffer, 30);
-		res.push_back(buffer, ret);
+	std::string str_to_read;
+	char buffer[4096];
+	size_t ret = 4096;
+	while (ret == 4096) {
+		ret = read(fdOut[0], buffer, 4096);
+		str_to_read += buffer;
 	}
+	size_t posOfBody = str_to_read.find("\r\n\r\n");
+	if (posOfBody == std::string::npos)
+		throw std::runtime_error("400");
+	std::string headFromScript = str_to_read.substr(0, posOfBody);
+	body = str_to_read.substr(posOfBody + 4);
+	/*std::cout << headFromScript << std::endl;
+	std::cout << bodyFromScript << std::endl;*/
 	close(fdOut[1]);
 	close(fdOut[0]);
 	close(fdIn[0]);
@@ -165,13 +174,13 @@ void	HandlerCGI::handleCGI(Connect* conn, std::string const &path_interpritator)
 		delete[] env[i];
 	}
 	delete[] env;
-	//return res;
-	std::string	head;
 	head = "HTTP/1.1 200 OK\r\n";
 	head += "Server: " + std::string("JUM webserv/0.0.1") + "\r\n";
 	head += "Connection: keep-alive\r\n";
-	head += "Content-Length: " + std::to_string(res.len()) + "\r\n";
+	head += headFromScript + "\r\n";
+	head += "Content-Length: " + std::to_string(bodyFromScript.length()) +
+			"\r\n";
 	head += "\r\n";
-	send(conn->fds, head.data(), head.length(), 0);
-	send(conn->fds, res.get_content(), res.len(), 0);
+	/*send(conn->fds, head.data(), head.length(), 0);
+	send(conn->fds, bodyFromScript.data(), bodyFromScript.length(), 0);*/
 }
