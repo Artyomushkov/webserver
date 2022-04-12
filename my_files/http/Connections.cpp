@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:37:26 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/09 09:45:23 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/12 12:36:31 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ int	Connections::request(int fds, std::vector<ServerConfig> const &srvs_config)
 		}
 	}
 	try {
-		conn->contentReq.read(fds);
+		bool f_soc_close;
+		conn->contentReq.read(fds, f_soc_close);
+		if (f_soc_close)
+			return -2;
 		conn->timeReq = time(NULL);
 		if (conn->statusReq == 0)
 		{
@@ -87,7 +90,7 @@ std::vector<int>	Connections::checkTime(time_t time_out)
 	{
 		if (now - it->second.timeReq > time_out)
 		{
-			Responce::sending(&(it->second), "408");
+//			Responce::sending(&(it->second), "408");
 			res.push_back(it->first);
 			it = _connections.erase(it);
 		}

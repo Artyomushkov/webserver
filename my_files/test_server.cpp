@@ -85,7 +85,7 @@ int main(int argc, char **argv)
 		if (res_select == 0)
 			close_connections(connects.checkTime(TIME_OUT), &readfds);
 		else if (res_select > 0)
-		{
+//		{
 			for (int i = 0; i < FD_SETSIZE; i++)
 			{
 				if (FD_ISSET(i, &b_readfds))
@@ -103,14 +103,17 @@ int main(int argc, char **argv)
 						{
 							if (res > 0)
 								connects.responce(i);
-							FD_CLR(i, &readfds);
-							close(i);
+							if (res == -2)
+							{
+								FD_CLR(i, &readfds);
+								close(i);
+							}
 						}
 					}
 				}
 			}
-			close_connections(connects.checkTime(TIME_OUT), &readfds);
-		}
+			//close_connections(connects.checkTime(TIME_OUT), &readfds);
+//		}
 	}
 	return 0;
 }

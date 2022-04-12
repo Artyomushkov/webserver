@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 15:04:37 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/10 14:39:30 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/12 14:18:42 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,9 @@ void	Responce::sending(Connect* conn)
 			if (conn->location->getRoute() == conn->location->getRedirection())
 				throw (std::runtime_error("508"));
 			head = "HTTP/1.1 307 " + _code_error_text.find("307")->second + "\r\n";
+			head += "Connection: keep-alive\r\n";
 			head += "Location: " + conn->location->getRedirection() + conn->head.get("uri").substr(conn->location->getRoute().length());
+			head += "Content-Length: 0\r\n";
 			if (conn->get_str != "")
 			head += "?" + conn->get_str;
 			head +="\r\n\r\n";
@@ -223,6 +225,12 @@ void	Responce::sending(Connect* conn)
 		std::map<std::string, std::string>::iterator	cgi_it = cgi_map.find("." + getExtension(conn->head.get("uri")));
 		if (cgi_it != cgi_map.end())
 		{
+
+			if (conn->unChunked.content.len())
+				std::cout << conn->unChunked.content.len() << " LEN_CHUNKED\n";	
+			else
+				std::cout << conn->contentReq.len() << " LEN\n";
+				
 			cgi.handleCGI(conn, cgi_it->second);
 			return ;
 		}
@@ -245,8 +253,7 @@ void	Responce::sending(Connect* conn)
 		head += "Server: " + std::string(SERVER_NAME) + "\r\n";
 		head += "Connection: keep-alive\r\n";
 		head += "Content-Type: " + getType(conn->full_file_path) + "\r\n";
-		if (content.len())
-			head += "Content-Length: " + std::to_string(content.len()) + "\r\n";
+		head += "Content-Length: " + std::to_string(content.len()) + "\r\n";
 		head +="\r\n";
 		send(conn->fds, head.data(), head.length(), 0);
 		if (content.len())
@@ -278,6 +285,7 @@ void	Responce::sending(Connect* conn, std::string const& http_code, bool f_body)
 		}
 		
 		std::string	content;
+		std::string	body;
 		if (conn->head.get("method") == "HEAD")
 			f_body = false;
 		content = "HTTP/1.1 " + http_code + " " + it->second + "\r\n";
@@ -285,32 +293,43 @@ void	Responce::sending(Connect* conn, std::string const& http_code, bool f_body)
 			content += "Content-Type: text/html; charset=UTF-8\r\n";
 		content += "Connection: keep-alive\r\n";
 		content += "Server: " + std::string(SERVER_NAME) + "\r\n";
-		content += "\r\n";
-		send(conn->fds, content.data(), content.length(), 0);
 		if (f_body)
 		{
 			if (errPage.len())
+			{
+				content += "Content-Length: " + std::to_string(errPage.len()) + "\r\n";
+				content += "\r\n";			
+				send(conn->fds, content.data(), content.length(), 0);
 				send(conn->fds, errPage.get_content(), errPage.len(), 0);
+			}
 			else
 			{
-				content = "<html><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">";
-				content += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>";
-				content += it->first + " - " + it->second;
-				content += "</title></head><body style='width: 100%;height: 100%;background-color: #21232a;margin: 0;";
-				content += "line-height: 1.15;color: #fff;text-align: center;text-shadow: 0 2px 4px rgba(0,0,0,.5);padding: 0;";
-				content += "min-height: 100%;-webkit-box-shadow: inset 0 0 100px rgba(0,0,0,.8);box-shadow: inset 0 0 100px rgba(0,0,0,.8);";
-				content += "display: table;font-family: \"Open Sans\",Arial,sans-serif;text-align: center;text-shadow: 0 2px 4px rgba(0,0,0,.5);'>";
-				content += "<div style='display: table-cell;vertical-align: middle;padding: 0 20px;'><h1 style='font-family: inherit;font-weight: 500;";
-				content += "line-height: 1.1;color: inherit;font-size: 36px;'>";
-				content += it->second;
-				content += "&nbsp;<small style='font-size: 150%;font-weight: 400;line-height: 1;color: #777;'>";
-				content += it->first;
-				content += "</small></h1></div></body></html>";
+				body = "<html><head><meta charset=\"utf-8\"><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">";
+				body += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>";
+				body += it->first + " - " + it->second;
+				body += "</title></head><body style='width: 100%;height: 100%;background-color: #21232a;margin: 0;";
+				body += "line-height: 1.15;color: #fff;text-align: center;text-shadow: 0 2px 4px rgba(0,0,0,.5);padding: 0;";
+				body += "min-height: 100%;-webkit-box-shadow: inset 0 0 100px rgba(0,0,0,.8);box-shadow: inset 0 0 100px rgba(0,0,0,.8);";
+				body += "display: table;font-family: \"Open Sans\",Arial,sans-serif;text-align: center;text-shadow: 0 2px 4px rgba(0,0,0,.5);'>";
+				body += "<div style='display: table-cell;vertical-align: middle;padding: 0 20px;'><h1 style='font-family: inherit;font-weight: 500;";
+				body += "line-height: 1.1;color: inherit;font-size: 36px;'>";
+				body += it->second;
+				body += "&nbsp;<small style='font-size: 150%;font-weight: 400;line-height: 1;color: #777;'>";
+				body += it->first;
+				body += "</small></h1></div></body></html>";
+
+				content += "Content-Length: " + std::to_string(body.length()) + "\r\n";
+				content += "\r\n";
 				send(conn->fds, content.data(), content.length(), 0);
+				send(conn->fds, body.data(), body.length(), 0);
 			}
 		}
-//		if (f_body)
-//			send(conn->fds, "\0", 1, 0);
+		else
+		{
+			content += "Content-Length: 0\r\n";
+			content += "\r\n";			
+			send(conn->fds, content.data(), content.length(), 0);
+		}
 	}
 	catch (std::exception &e) {
 		std::cerr << "failed to send error to client\n";
@@ -439,18 +458,22 @@ void	Responce::send_directories(Connect* conn)
 	}
 
 	std::string	content;
+	std::string	body;
 	content = "HTTP/1.1 200 " + _code_error_text.find("200")->second + "\r\n";
 	content += "Content-Type: text/html; charset=UTF-8\r\n";
 	content += "Connection: keep-alive\r\n";
 	content += "Server: " + std::string(SERVER_NAME) + "\r\n";
+
+	body = "<div style=\"font-size: 40px;margin-top: 20px;\">Index of ";
+	body += conn->head.get("uri");
+	body += "<div style=\"width: 100%;height: 0px;border: solid 1px gray;margin-top: 20px;margin-bottom: 20px;\"></div>";
+	body += dirs_content;
+	body += files_content;
+	body += "<div style=\"width: 100%;height: 0px;border: solid 1px gray;margin-top: 20px;margin-bottom: 20px;\"></div>";
+
+	content += "Content-Length: " + std::to_string(body.length()) + "\r\n";
 	content += "\r\n";
-	content += "<div style=\"font-size: 40px;margin-top: 20px;\">Index of ";
-	content += conn->head.get("uri");
-	content += "<div style=\"width: 100%;height: 0px;border: solid 1px gray;margin-top: 20px;margin-bottom: 20px;\"></div>";
+
 	send(conn->fds, content.data(), content.length(), 0);
-	send(conn->fds, dirs_content.data(), dirs_content.length(), 0);
-	send(conn->fds, files_content.data(), files_content.length(), 0);
-	content = "<div style=\"width: 100%;height: 0px;border: solid 1px gray;margin-top: 20px;margin-bottom: 20px;\"></div>";
-	send(conn->fds, content.data(), content.length(), 0);
-//	send(conn->fds, "\0", 1, 0);
+	send(conn->fds, body.data(), body.length(), 0);	
 }

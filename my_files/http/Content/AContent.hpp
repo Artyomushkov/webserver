@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 18:05:58 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/05 12:18:28 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/12 11:52:48 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ class	AContent
 		void			push_back(std::string const& str);
 		void			push_front(char const* src, size_t const len);
 		void			push_front(std::string const& str);
-		virtual void	read(int fd) = 0;
+		virtual void	read(int fd, bool &f_soc_close) = 0;
 		virtual void	read(std::string const &path) = 0;
 
 	protected:

@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 10:32:39 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/05 12:18:36 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/12 11:53:21 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 class ContentSocket: public AContent
 {
 	public:
-		virtual void	read(int fd);
+		virtual void	read(int fd, bool &f_soc_close);
 
 	private:
 		virtual void	read(std::string const &path) {(void) path;};

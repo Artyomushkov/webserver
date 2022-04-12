@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 11:57:20 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/04 10:19:13 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/10 19:25:38 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@ class	Connections: public Request, public Responce
 		int					request(int fds, std::vector<ServerConfig> const &srvs_config);
 		void				responce(int fds);
 		std::vector<int>	checkTime(time_t time_out);
+		Connect*			getConnect(int fds);
 
 	private:
 		std::map<int, Connect>	_connections;
-		Connect*					getConnect(int fds);
+//		Connect*					getConnect(int fds);
 		void						delConnect(int fds);
 };
 

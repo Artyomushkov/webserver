@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 09:08:21 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/10 14:28:44 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/10 16:23:51 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ bool	Request::chunked_decoding(Connect* conn)
 	while (pos < conn->contentReq.len())
 	{
 		size_str = conn->contentReq.get_line(pos);
-//		std::cout << size_str << " @@@\n";
+		std::cout << conn->unChunked.content.len() << " LEN @@@\n";
+		std::cout << size_str << " @@@\n";
 		if (size_str.length() == conn->contentReq.len() ||
 			size_str[size_str.length() - 1] == '\r' ||
 			*(conn->contentReq.get_content() + pos + size_str.length()) != '\r'

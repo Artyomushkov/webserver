@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 11:01:03 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/05 12:18:19 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/12 11:53:07 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ class ContentFile: public AContent
 		virtual void	read(std::string const &path);
 
 	private:
-		virtual void	read(int fd) {(void) fd;};
+		virtual void	read(int fd, bool &f_soc_close) {(void) fd; (void) f_soc_close;};
 };
 
 #endif

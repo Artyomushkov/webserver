@@ -170,7 +170,8 @@ void	HandlerCGI::handleCGI(Connect* conn, std::string const &path_interpritator)
 	head = "HTTP/1.1 200 OK\r\n";
 	head += "Server: " + std::string("JUM webserv/0.0.1") + "\r\n";
 	head += "Connection: keep-alive\r\n";
+	head += "Content-Length: " + std::to_string(res.len()) + "\r\n";
+	head += "\r\n";
 	send(conn->fds, head.data(), head.length(), 0);
 	send(conn->fds, res.get_content(), res.len(), 0);
-
 }
