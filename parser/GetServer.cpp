@@ -59,7 +59,7 @@ void GetServer::getConfigInformation(Connect* conn,
 		conn->location = res;
 		return;
 	}
-	size_t maxDirs = 0;
+/*	size_t maxDirs = 0;
 	std::vector<std::string> urlParsed = strSplitBySlash(uri);
 	for (std::vector<Route>::const_iterator it = vecRoute.begin(); it !=
 																   vecRoute.end(); ++it) {
@@ -77,6 +77,21 @@ void GetServer::getConfigInformation(Connect* conn,
 			res = &(*it);
 		}
 		routeParsed.clear();
+	}*/
+	size_t maxLen = 0;
+	for (std::vector<Route>::const_iterator it = vecRoute.begin(); it !=
+													vecRoute.end(); ++it) {
+		std::string route = it->getRoute();
+		if (uri.length() != route.length() && route[route.length() - 1] != '/')
+			route += '/';
+		size_t len = route.length();
+		if (len > uri.size())
+			continue;
+		std::string bufUri = uri.substr(0, len);
+		if (bufUri == route && len > maxLen) {
+			maxLen = len;
+			res = &(*it);
+		}
 	}
 	if (!checkHTTPMethodAllowed(method, res))
 		throw std::runtime_error("405");

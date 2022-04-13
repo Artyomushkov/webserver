@@ -6,6 +6,7 @@
 #define WEBSERV_SESSION_H
 #include "string"
 #include <time.h>
+#include <stdlib.h>
 
 class Session
 {
