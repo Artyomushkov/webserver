@@ -1,5 +1,5 @@
 /*
-c++ -Wall -Werror -Wextra -std=c++98 -I ./cgi -I ./cookie -I ./http -I ./http/Content -I ./parser/ ./cgi/HandlerCGI.cpp ./cookie/Cookie.cpp ./cookie/Session.cpp ./http/Connect.cpp ./http/Connections.cpp ./http/Request.cpp ./http/RequestData.cpp ./http/Responce.cpp ./http/Content/AContent.cpp ./http/Content/ContentFile.cpp ./http/Content/ContentSocket.cpp ./parser/ConfigParser.cpp ./parser/GetServer.cpp ./parser/Route.cpp ./parser/ServerConfig.cpp ./parser/utils.cpp test_server.cpp -o server
+c++ -Wall -Werror -Wextra -std=c++98 -I ./cgi -I ./cookie -I ./http -I ./http/Content -I ./parser/ ./cgi/HandlerCGI.cpp ./cookie/Cookie.cpp ./cookie/Session.cpp ./http/Connect.cpp ./http/Connections.cpp ./http/Request.cpp ./http/RequestData.cpp ./http/Responce.cpp ./http/Content/AContent.cpp ./http/Content/ContentFile.cpp ./http/Content/ContentSocket.cpp ./parser/ConfigParser.cpp ./parser/GetServer.cpp ./parser/Route.cpp ./parser/ServerConfig.cpp ./parser/utils.cpp ./http/Content/RequestBody.cpp test_server.cpp -o server
 */
 
 #include <iostream>

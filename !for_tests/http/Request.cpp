@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 09:08:21 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/13 14:26:36 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/14 13:04:48 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ bool	Request::all_body_read(Connect* conn)
 			pos += 2;
 			if (conn->buffer.len() < (pos + size + 2))
 				return 0;
-			conn->contentReq.push_back(conn->buffer.get_content() + pos, size);
+			conn->body.add(conn->buffer.get_content() + pos, size);
 			conn->buffer.cut(0, pos + size + 2);
 			if (size == 0)
 			{
@@ -93,16 +93,16 @@ bool	Request::all_body_read(Connect* conn)
 	}
 	else if (cont_len > 0)
 	{
-		if (conn->contentReq.len() + conn->buffer.len() >= cont_len)
+		if (conn->body.len() + conn->buffer.len() >= cont_len)
 		{
-			conn->contentReq.push_back(conn->buffer.get_content(), cont_len - conn->contentReq.len());
-			conn->buffer.cut(0, cont_len - conn->contentReq.len());
+			conn->body.add(conn->buffer.get_content(), cont_len - conn->body.len());
+			conn->buffer.cut(0, cont_len - conn->body.len());
 			conn->statusReq = 2;
 			return 1;			
 		}
 		else
 		{
-			conn->contentReq.push_back(conn->buffer.get_content(), conn->buffer.len());
+			conn->body.add(conn->buffer.get_content(), conn->buffer.len());
 			conn->buffer.clean();			
 		}
 	}

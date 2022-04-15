@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 18:44:34 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/13 13:35:38 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/14 13:00:11 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "Route.hpp"
 # include "ContentSocket.hpp"
 # include "Content.hpp"
+# include "RequestBody.hpp"
 
 class Connect {
 	public:
@@ -28,7 +29,7 @@ class Connect {
 		int				statusReq;
 		const Route*	location;
 		ContentSocket	buffer;
-		Content			contentReq;
+		RequestBody		body;
 		RequestData		head;
 		std::string		get_str;
 		std::string		full_file_path;

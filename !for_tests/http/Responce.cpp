@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 15:04:37 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/13 15:46:30 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/14 21:31:03 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,6 +205,8 @@ void	Responce::sending(Connect* conn, std::string const& http_code)
 				if (path_prg != "")
 				{
 					_head = "";
+					if (_body)		
+						delete _body;
 					_body = new Content();
 					handleCGI(conn, path_prg, _head, _body);
 				}
@@ -406,7 +408,7 @@ void	Responce::set_load_file(Connect* conn)
 	put_file.open(path);
 	if (put_file.is_open())
 	{
-		put_file.write(conn->contentReq.get_content(), conn->contentReq.len());
+		conn->body.write_data(put_file);
 		put_file.close();
 		if (f_file)
 			set_other_page(conn, "204", 0);

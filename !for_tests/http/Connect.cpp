@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/02 11:03:59 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/13 14:04:41 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/14 13:04:11 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	Connect::clean()
 	timeReq = std::time(NULL);
 	statusReq = 0;
 	location = NULL;
-	contentReq.clean();
 	head.clean();
+	body.clean();
 	get_str = "";
 	full_file_path = "";
 }

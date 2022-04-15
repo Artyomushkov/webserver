@@ -55,15 +55,18 @@ std::vector<std::string> HandlerCGI::init_env(Connect *conn) {
 	res.push_back(form_env_string("REQUEST_METHOD", conn->head.get("method")));
 	res.push_back(form_env_string("PATH_INFO", conn->head.get("uri")));
 	res.push_back(form_env_string("PATH_TRANSLATED", conn->full_file_path));
-	res.push_back(form_env_string("SCRIPT_NAME", getScriptFromPath(conn->head
-	.get("uri"))));
+//	res.push_back(form_env_string("SCRIPT_NAME", getScriptFromPath(conn->head
+//	.get("uri"))));
 	res.push_back(form_env_string("QUERY_STRING", conn->get_str));
 	res.push_back(form_env_string("REMOTE_HOST", conn->head.get("host")));
 	res.push_back(form_env_string("REMOTE_ADDR", getServerNameFromHost
 	(conn->head.get("host"))));
+//	res.push_back(form_env_string("PWD", "/Users/mit9y/Documents/school_21/webserver/my_files"));
 	res.push_back(form_env_string("CONTENT_TYPE", conn->head.get("content-type")));
-	res.push_back(form_env_string("CONTENT_LENGTH", conn->head.get
-	("content-length")));
+/*	res.push_back(form_env_string("CONTENT_LENGTH", conn->head.get
+	("content-length")));*/
+	res.push_back(form_env_string("CONTENT_LENGTH", std::to_string(conn->body.len())));
+//	res.push_back(form_env_string("CONTENT_LENGTH", "4"));
 	res.push_back(form_env_string("HTTP_COOKIE", conn->head.get("cookies")));
 
 	return res;
@@ -117,6 +120,8 @@ conn, std::string const &path_interpritator) {
 	args[0] = const_cast<char*>(path_interpritator.c_str());
 	args[1] = const_cast<char*>(script.c_str());
 	args[2] = NULL;
+	
+	std::cerr << "BEFORE EXECVE\n";
 	int n = execve(args[0], args, env);
 	if (n < 0) {
 		std::cerr << "execve error" << std::endl;
@@ -127,15 +132,18 @@ conn, std::string const &path_interpritator) {
 
 void	HandlerCGI::handleCGI(Connect* conn, std::string const
 &path_interpritator, std::string& head, AContent* body) {
-
 	std::vector<std::string> envVec = init_env(conn);
 	char** env = form_env(envVec);
 	int fdIn[2];
 	pipe(fdIn);
+	fcntl(fdIn[1], F_SETFL, O_NONBLOCK);	
 	int fdOut[2];
 	pipe(fdOut);
-	write(fdIn[1], conn->contentReq.get_content(), conn->contentReq.len());
+	std::cout << "BEFORE WRITE IN - " << fdIn[1] << "\n";
+	conn->body.write_data(fdIn[1]);
+//	write(fdIn[1], "TEST", 4);
 	close(fdIn[1]);
+	std::cout << "RUN FORK\n";
 	pid_t proc = fork();
 	if (proc == -1) {
 		std::cerr << "fork crashed" << std::endl;
@@ -146,6 +154,7 @@ void	HandlerCGI::handleCGI(Connect* conn, std::string const
 	}
 	int status;
 	waitpid(proc, &status, 0);
+	std::cout << "RUN MAIN PROC\n";
 	if (WEXITSTATUS(status))
 		throw std::runtime_error("500");
 /*	std::string str_to_read;
@@ -162,13 +171,41 @@ void	HandlerCGI::handleCGI(Connect* conn, std::string const
 		throw std::runtime_error("400");
 	std::string headFromScript = str_to_read.substr(0, posOfBody);
 	body = str_to_read.substr(posOfBody + 2);*/
-	body->clean();
-	char buffer[4096];
-	size_t ret = 4096;
-	while (ret == 4096) {
-		ret = read(fdOut[0], buffer, 4096);
-		body->push_back(buffer, ret);
+
+	head = "HTTP/1.1 200 OK\r\n";
+	head += "Server: " + std::string("JUM webserv/0.0.1") + "\r\n";
+	head += "Connection: keep-alive\r\n";
+
+	RequestBody	content_buf;
+	char buffer[66000];
+	size_t ret = 66000;
+	fcntl(fdOut[0], F_SETFL, O_NONBLOCK);
+	while (ret == 66000) {
+		ret = read(fdOut[0], buffer, 66000);
+		content_buf.add(buffer, ret);
 	}
+	if (content_buf.len() > 0)
+	{
+		std::string	str_head_cont = "";
+		Content*	head_cont = content_buf.get_content(0);
+		size_t	beg_str = 0;
+		size_t	end_str = head_cont->find("\r\n");
+		while (end_str != std::string::npos)
+		{
+			str_head_cont = std::string(head_cont->get_content() + beg_str, end_str - beg_str);
+			if (str_head_cont.find("Status: ") != std::string::npos &&
+				std::string(str_head_cont.data()+ 8, 3) != "200")
+				throw std::runtime_error(std::string(str_head_cont.data()+ 8, 3));
+			head += str_head_cont + "\r\n";			
+			beg_str = end_str + 2;
+			end_str = head_cont->find("\r\n", beg_str);
+			if (beg_str == end_str)
+				break;
+		}
+		if (beg_str)
+			content_buf.cut(0, 0, end_str + 2);
+	}
+	content_buf.write_data(body);
 
 	close(fdOut[1]);
 	close(fdOut[0]);
@@ -177,9 +214,7 @@ void	HandlerCGI::handleCGI(Connect* conn, std::string const
 		delete[] env[i];
 	}
 	delete[] env;
-	head = "HTTP/1.1 200 OK\r\n";
-	head += "Server: " + std::string("JUM webserv/0.0.1") + "\r\n";
-	head += "Connection: keep-alive\r\n";
+
 /*	size_t posNewline = 0;
 	size_t oldPos = 0;
 	while (posNewline != posOfBody) {

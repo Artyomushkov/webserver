@@ -12,6 +12,7 @@
 # include "ServerConfig.hpp"
 # include "Content.hpp"
 # include "Connect.hpp"
+# include "RequestBody.hpp"
 
 class HandlerCGI {
 
