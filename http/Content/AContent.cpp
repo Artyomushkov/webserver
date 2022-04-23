@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/20 18:28:33 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/13 13:40:08 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/21 08:13:06 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ AContent::AContent(AContent const &obj): _content(NULL), _len(0)
 {
 	*this = obj;
 }
+
 AContent	&AContent::operator=(AContent const &obj)
 {
 	if (this != &obj)
@@ -93,13 +94,23 @@ void	AContent::clean()
 	_len = 0;
 }
 
+void	AContent::init(size_t len)
+{
+	this->clean();
+	if (len)
+	{
+		_content = new char[len];
+		_len = len;
+	}
+}
+
 void	AContent::print()
 {
 	for (size_t i = 0; i < _len; i++)
 		std::cout << _content[i];
 }
 
-void	AContent::push_back(char const* src, size_t const len)
+void	AContent::push_back(char const* src, size_t const &len)
 {
 	char*	n_content;
 
@@ -127,7 +138,7 @@ void	AContent::push_back(std::string const& str)
 	_content = n_content;
 }
 
-void	AContent::push_front(char const* src, size_t const len)
+void	AContent::push_front(char const* src, size_t const &len)
 {
 	char*	n_content;
 

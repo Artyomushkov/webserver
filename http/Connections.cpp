@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:37:26 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/13 11:10:54 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/21 12:23:33 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	Connections::read_request(int fds, std::vector<ServerConfig> const &srvs_con
 	}
 	try {
 		bool f_conn_close;
-		conn->buffer.read(fds, f_conn_close);
+		conn->buffer.read(fds, f_conn_close);		
 		if (f_conn_close)
 		{
 			delConnect(fds);
@@ -94,5 +94,9 @@ void	Connections::delConnect(int fds)
 
 	it = _connections.find(fds);
 	if (it != _connections.end())
+	{
+		it->second.clean();		
+		it->second.buffer.clean();
 		_connections.erase(it);
+	}
 }

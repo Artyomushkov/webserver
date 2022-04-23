@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 10:39:32 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/12 11:53:14 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/21 08:14:24 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	ContentSocket::read(int fd, bool &f_soc_close)
 	}
 	if (read_len == 0)
 	{
+		delete[] buffer;
 		f_soc_close = 1;
 		return ;
 	}

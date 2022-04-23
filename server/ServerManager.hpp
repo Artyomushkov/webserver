@@ -2,13 +2,15 @@
 #define WEBSERV_SERVERMANAGER_HPP
 #include <sys/select.h>
 #include <fstream>
+#include <vector>
+#include <map>
 #include <iostream>
 #include <unistd.h>
-#include "../parser/ServerConfig.hpp"
+#include "ServerConfig.hpp"
 #include "Socket.hpp"
-#include "../http/Connections.hpp"
+#include "Connections.hpp"
 
-#define TIME_OUT 5 //Время ожидания в секундах
+#define TIME_OUT 600 //Время ожидания в секундах
 
 class ServerManager
 {
@@ -21,13 +23,13 @@ private:
 	bool is_serverfd(int);
 	void close_allconnections(fd_set* fdset);
 	std::vector<Socket>::iterator get_socket(int);
-	void close_connections(std::vector<int> arr_conn, fd_set* fdset);
+	void close_connections(std::vector<int> arr_conn, fd_set* fdset, std::map < int, std::vector<ServerConfig> >* all_fds);
 public:
 	std::vector<ServerConfig> servers;
 	std::vector<Socket> sockets;
 
 	void Launch();
-	ServerManager();
+	ServerManager(){};
 	~ServerManager();
 };
 

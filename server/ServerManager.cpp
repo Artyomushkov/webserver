@@ -33,13 +33,14 @@ void	ServerManager::close_allconnections(fd_set* fdset)
 	}
 }
 
-void	ServerManager::close_connections(std::vector<int> arr_conn, fd_set* fdset)
+void	ServerManager::close_connections(std::vector<int> arr_conn, fd_set* fdset, std::map <int, std::vector<ServerConfig> >* all_fds)
 {
 	std::vector<int>::iterator	it = arr_conn.begin();
 
 	while (it != arr_conn.end())
 	{
 		FD_CLR(*it, fdset);
+		(*all_fds).erase(*it);
 		close(*it);
 		it++;
 	}
@@ -82,8 +83,7 @@ void ServerManager::setSelect()
 
 	fd_set			loopfds;
 	int				connectionfd;
-	std::vector<int> all_fds;
-	std::vector<Socket>::iterator it;
+	std::map < int, std::vector<ServerConfig> > all_fds;
 	struct timeval	tv; tv.tv_sec = TIME_OUT + 1; tv.tv_usec = 0;
 	int				res_select;
 
@@ -91,69 +91,43 @@ void ServerManager::setSelect()
 	for(std::vector<Socket>::iterator it = sockets.begin();
 		it != sockets.end();
 		++it)
-	{
 		FD_SET(it->fd, &readfds);
-		all_fds.push_back(it->fd);
-	}
 	for (;;)
 	{
 		loopfds = readfds;
 		res_select = select(FD_SETSIZE, &loopfds, NULL, NULL, &tv);
 		if (res_select == 0)
-			close_connections(connects.checkTime(TIME_OUT), &readfds);
+			close_connections(connects.checkTime(TIME_OUT), &readfds, &all_fds);
 		else if (res_select > 0)
 		{
-			for (std::vector<int>::iterator i = all_fds.begin();
-			i != all_fds.end(); ++i)
+			for (int i = 0; i < FD_SETSIZE; i++)
 			{
-				if (FD_ISSET(*i, &loopfds))
+				if (FD_ISSET(i, &loopfds))
 				{
-					if (is_serverfd(*i))
+					std::vector<Socket>::iterator sockets_it = sockets.begin();
+					while (sockets_it != sockets.end())
 					{
-						it = get_socket(*i);
-						connectionfd = accept(it->fd,
-											  (struct sockaddr *) &it->sockaddr,
-											  (socklen_t *) &it->addrlen);
-						if (connectionfd < 0)
-						{
-							std::cout << "Failed to grab connection. errno: "
-									  << errno << std::endl;
-							exit(EXIT_FAILURE);
-						}
-						int res = connects.request(connectionfd, it->servers);
-						if (res != 0)
-						{
-							if (res > 0)
-								connects.responce(connectionfd);
-							close(connectionfd);
-						}
-						else if (res == 0)
-						{
-							FD_SET(connectionfd, &readfds);
-							all_fds.push_back(connectionfd);
-							it->acceptfds.push_back(connectionfd);
-						}
+						if ((*sockets_it).fd == i)
+							break ;
+						sockets_it++;
 					}
-					else
+					if (sockets_it != sockets.end())
 					{
-						it = get_socket(*i);
-						int res = connects.request(*i, it->servers);
-						if (res != 0)
-						{
-							if (res > 0)
-								connects.responce(*i);
-							FD_CLR(*i, &readfds);
-							close(*i);
-						}
+						if ((connectionfd = accept(i, NULL, NULL)) < 0)
+							{ perror("accept"); exit(EXIT_FAILURE);}
+						FD_SET(connectionfd, &readfds);
+						all_fds[connectionfd] = (*sockets_it).servers;
+					}
+					else if (connects.read_request(i, all_fds[connectionfd]))
+					{
+						FD_CLR(i, &readfds);
+						all_fds.erase(i);
+						close(i);
 					}
 				}
 			}
 		}
 	}
-}
-
-ServerManager::ServerManager()
-{
 }
 
 void ServerManager::addSocket(ServerConfig s, std::pair<in_addr_t, int> p)

@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 15:04:37 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/13 15:46:30 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/21 12:22:47 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,12 +181,10 @@ void	Responce::sending(Connect* conn, std::string const& http_code)
 			delete _body;
 		_body = NULL;
 
-		conn->head.add("cookie", "MY_SESSION_ID = abc;"/*_cookies.get_cookie_string(conn->head.get("cookie"))*/);
-
 		if (conn->location->getRedirection() != "")
 			set_redirection(conn);
 		else
-		{
+		{			
 			if (conn->location->getRoute() == conn->head.get("uri"))
 				set_index_page(conn);
 			if (conn->full_file_path == "" && conn->location->getAutoindex()
@@ -205,6 +203,8 @@ void	Responce::sending(Connect* conn, std::string const& http_code)
 				if (path_prg != "")
 				{
 					_head = "";
+					if (_body)		
+						delete _body;
 					_body = new Content();
 					handleCGI(conn, path_prg, _head, _body);
 				}
@@ -220,7 +220,7 @@ void	Responce::sending(Connect* conn, std::string const& http_code)
 	else
 		set_other_page(conn, http_code);
 	
-	_head += "Set-Cookie: " + conn->head.get("cookie") + "\r\n";
+//	_head += "Set-Cookie: " + conn->head.get("cookie") + "\r\n";
 	if (_body && _body->len())
 		_head += "Content-Length: " + std::to_string(_body->len()) + "\r\n\r\n";
 	else
@@ -406,7 +406,7 @@ void	Responce::set_load_file(Connect* conn)
 	put_file.open(path);
 	if (put_file.is_open())
 	{
-		put_file.write(conn->contentReq.get_content(), conn->contentReq.len());
+		conn->body.write_data(put_file);
 		put_file.close();
 		if (f_file)
 			set_other_page(conn, "204", 0);

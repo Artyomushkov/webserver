@@ -95,8 +95,7 @@ void GetServer::getConfigInformation(Connect* conn,
 	}
 	if (!checkHTTPMethodAllowed(method, res))
 		throw std::runtime_error("405");
-	if (str_to_int(conn->head.get("content-length")) >
-		res->getLimitBodySize())
+	if (conn->body.len() > static_cast<size_t>(res->getLimitBodySize()))
 		throw std::runtime_error("413");
 	conn->location = res;
 }

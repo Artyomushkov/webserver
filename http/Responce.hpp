@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 12:14:46 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/13 15:01:42 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/21 12:01:15 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 # include "Content.hpp"
 # include "ContentFile.hpp"
 # include "HandlerCGI.hpp"
-# include "Cookie.hpp"
 
 class	Responce: public HandlerCGI
 {
@@ -41,7 +40,6 @@ class	Responce: public HandlerCGI
 		std::string	const&	get_code(std::string const& code);
 
 	private:
-		Cookie								_cookies;
 		std::string							_head;
 		AContent							*_body;
 		std::string							_server_name;

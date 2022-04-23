@@ -2,6 +2,7 @@
 #define WEBSERV_HANDLERCGI_HPP
 
 #include <vector>
+#include <map>
 #include <iostream>
 #include <cstdio>
 #include <unistd.h>
@@ -12,6 +13,7 @@
 # include "ServerConfig.hpp"
 # include "Content.hpp"
 # include "Connect.hpp"
+# include "RequestBody.hpp"
 
 class HandlerCGI {
 
@@ -24,7 +26,6 @@ private:
 	std::string getServerNameFromHost(const std::string& host);
 	std::string getPortFromHost(const std::string& host);
 	std::string getScriptFromPath(const std::string& path);
-	void forkCGI(int fdIn[2], int fdOut[2], char **env, Connect* conn, std::string const &path_interpritator);
 	std::string myToString(int num);
 	std::string	form_env_string(std::string name, std::string param);
 	std::vector<std::string> init_env(Connect* conn);

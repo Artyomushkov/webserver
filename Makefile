@@ -1,8 +1,6 @@
 NAME =	webserv
 
-SRCS =	cookie/Cookie.cpp \
-		cookie/Session.cpp \
-		server/ServerManager.cpp \
+SRCS =	server/ServerManager.cpp \
 		server/Socket.cpp \
 		parser/ConfigParser.cpp \
 		parser/GetServer.cpp \
@@ -12,6 +10,7 @@ SRCS =	cookie/Cookie.cpp \
 		http/Content/AContent.cpp \
 		http/Content/ContentFile.cpp \
 		http/Content/ContentSocket.cpp \
+		http/Content/RequestBody.cpp \
 		http/Connect.cpp \
 		http/Connections.cpp \
 		http/Request.cpp \
@@ -43,7 +42,7 @@ ERASE = \33[2K
 all: $(NAME)
 
 $(NAME): $(ALL_OBJS_DIRS) $(OBJS) $(MAIN)
-	@$(CC) $(FLAGS) $(MAIN) $(OBJS) -o $(NAME) -I http/Content -I http -I parser -I cgi -I cookie
+	@$(CC) $(FLAGS) $(MAIN) $(OBJS) -o $(NAME) -I http/Content -I http -I parser -I cgi -I server
 	@echo "\n$(MAGENTA)$(NAME) $(GREEN)compiled$(RESET)"
 
 $(ALL_OBJS_DIRS): $(OBJS_DIR)
@@ -53,7 +52,7 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)
 
 $(OBJS_DIR)/%.o:%.cpp
-	@$(CC) $(FLAGS) -c $< -o $@ -MMD -I http/Content -I http -I parser -I cgi -I cookie
+	@$(CC) $(FLAGS) -c $< -o $@ -MMD -I http/Content -I http -I parser -I cgi -I server
 	@printf "$(ERASE)$(RED)>> $(YELLOW)[$@]$(GREEN)$(RESET)\r"
 
 include $(wildcard $(D_FILES))
