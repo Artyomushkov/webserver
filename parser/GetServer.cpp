@@ -6,7 +6,7 @@ std::string GetServer::parseServerName(const std::string& host) {
 	size_t pos = host.find(':');
 	if (pos == std::string::npos)
 		return host;
-	res = host.substr(0, host.length() - pos);
+	res = host.substr(0,pos);
 	return res;
 }
 

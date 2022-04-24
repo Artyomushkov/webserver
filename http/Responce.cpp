@@ -225,7 +225,6 @@ void	Responce::sending(Connect* conn, std::string const& http_code)
 		_head += "Content-Length: " + std::to_string(_body->len()) + "\r\n\r\n";
 	else
 		_head += "Content-Length: 0\r\n\r\n";
-
 	send(conn->fds, _head.data(), _head.length(), 0);
 	if (_body && _body->len())
 		send(conn->fds, _body->get_content(), _body->len(), 0);
