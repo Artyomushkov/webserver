@@ -47,6 +47,7 @@ void ConfigParser::ParsingProcess() {
 				if (str == "{") {
 					try {
 						parseServerPreporation(file);
+						break ;
 					}
 					catch (std::logic_error& e) {
 						throw;

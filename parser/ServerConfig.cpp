@@ -90,6 +90,7 @@ void ServerConfig::parseRoot(std::vector<std::string>& command) {
 		throw std::logic_error("Config syntax error in root: root should "
 							   "not end with /");
 	_root = command[1];
+	_routes.front().setRoot(_root);
 }
 
 void ServerConfig::parseCGI(std::vector<std::string>& command) {

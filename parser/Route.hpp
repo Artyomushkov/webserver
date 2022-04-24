@@ -40,6 +40,7 @@ public:
 	command, std::string& root, std::set<std::string>&
 	default_pages, std::map<int, std::string>& error_pages,
 	std::map<std::string, std::string>& cgi);
+	void setRoot(const std::string& root);
 	const std::string& getRoute() const;
 	const std::set<std::string>& getDefaultPages() const;
 	const std::set<std::string>& getHTTPmethods() const;

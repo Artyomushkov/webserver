@@ -175,6 +175,11 @@ void Route::parseRouteInit(std::ifstream& file,
 	}
 }
 
+void Route::setRoot(const std::string& root) {
+
+	_root = root;
+}
+
 void Route::parseClientMaxBodySize(
 		std::vector<std::string>& command) {
 
