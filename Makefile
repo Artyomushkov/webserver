@@ -1,8 +1,6 @@
 NAME =	webserv
 
-SRCS =	server/ServerManager.cpp \
-		server/Socket.cpp \
-		parser/ConfigParser.cpp \
+SRCS =	parser/ConfigParser.cpp \
 		parser/GetServer.cpp \
 		parser/Route.cpp \
 		parser/ServerConfig.cpp \
@@ -42,7 +40,7 @@ ERASE = \33[2K
 all: $(NAME)
 
 $(NAME): $(ALL_OBJS_DIRS) $(OBJS) $(MAIN)
-	@$(CC) $(FLAGS) $(MAIN) $(OBJS) -o $(NAME) -I http/Content -I http -I parser -I cgi -I server
+	@$(CC) $(FLAGS) $(MAIN) $(OBJS) -o $(NAME) -I http/Content -I http -I parser -I cgi
 	@echo "\n$(MAGENTA)$(NAME) $(GREEN)compiled$(RESET)"
 
 $(ALL_OBJS_DIRS): $(OBJS_DIR)
@@ -52,7 +50,7 @@ $(OBJS_DIR):
 	@mkdir -p $(OBJS_DIR)
 
 $(OBJS_DIR)/%.o:%.cpp
-	@$(CC) $(FLAGS) -c $< -o $@ -MMD -I http/Content -I http -I parser -I cgi -I server
+	@$(CC) $(FLAGS) -c $< -o $@ -MMD -I http/Content -I http -I parser -I cgi
 	@printf "$(ERASE)$(RED)>> $(YELLOW)[$@]$(GREEN)$(RESET)\r"
 
 include $(wildcard $(D_FILES))

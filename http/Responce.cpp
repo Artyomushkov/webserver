@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 15:04:37 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/21 12:22:47 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/25 22:25:04 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,7 +220,6 @@ void	Responce::sending(Connect* conn, std::string const& http_code)
 	else
 		set_other_page(conn, http_code);
 	
-//	_head += "Set-Cookie: " + conn->head.get("cookie") + "\r\n";
 	if (_body && _body->len())
 		_head += "Content-Length: " + std::to_string(_body->len()) + "\r\n\r\n";
 	else
@@ -289,6 +288,7 @@ void	Responce::set_redirection(Connect* conn)
 	_head += "Location: " + conn->location->getRedirection() + conn->head.get("uri").substr(conn->location->getRoute().length());
 	if (conn->get_str != "")
 		_head += "?" + conn->get_str;
+	_head += "\r\n";
 }
 
 void	Responce::set_index_page(Connect* conn)
@@ -342,7 +342,7 @@ void	Responce::set_directories(Connect* conn)
 		{
 			if (dir_el->d_name[0] != '.')
 			{
-				file_path = conn->location->getRoot() + "/" + dir_el->d_name;
+				file_path = path + "/" + dir_el->d_name;
 				if (!stat(file_path.data(), &buf))
 				{
 					std::strftime(time_str, 32, "%d.%m.%Y %H:%M:%S", std::localtime(&(buf.st_ctime)));

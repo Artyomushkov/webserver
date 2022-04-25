@@ -6,13 +6,13 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:37:26 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/21 12:23:33 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/25 21:30:00 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Connections.hpp"
 
-int	Connections::read_request(int fds, std::vector<ServerConfig> const &srvs_config)
+int	Connections::read_request(int fds, std::vector<const ServerConfig*> const &srvs_config)
 {
 	Connect*	conn = getConnect(fds);
 

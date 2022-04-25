@@ -11,19 +11,19 @@ std::string GetServer::parseServerName(const std::string& host) {
 }
 
 const ServerConfig* GetServer::chooseServer(Connect* conn,
-											const std::vector <ServerConfig>& config) {
+											const std::vector <const ServerConfig*>& config) {
 
 	std::string reqServerName = parseServerName(conn->head.get("host"));
-	for (std::vector<ServerConfig>::const_iterator it = config.begin();
+	for (std::vector<const ServerConfig*>::const_iterator it = config.begin();
 		 it != config.end(); ++it) {
-		std::set<std::string> serverNames = it->getServerNames();
+		std::set<std::string> serverNames = (*it)->getServerNames();
 		for (std::set<std::string>::iterator iter = serverNames.begin(); iter
 		!= serverNames.end(); ++iter) {
 			if (*iter == reqServerName)
-				return &(*it);
+				return &(**it);
 		}
 	}
-	return &(config[0]);
+	return &(*config[0]);
 }
 
 bool GetServer::checkHTTPMethodAllowed(const std::string& method,
@@ -38,7 +38,7 @@ bool GetServer::checkHTTPMethodAllowed(const std::string& method,
 }
 
 void GetServer::getConfigInformation(Connect* conn,
-									 const std::vector <ServerConfig>& config) {
+									 const std::vector <const ServerConfig*>& config) {
 
 	if (conn->head.get("http") != "HTTP/1.1")
 		throw std::runtime_error("505");

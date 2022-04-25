@@ -9,11 +9,11 @@
 class GetServer {
 
 public:
-	void getConfigInformation(Connect* conn, const std::vector<ServerConfig>&
+	void getConfigInformation(Connect* conn, const std::vector<const ServerConfig*>&
 		config);
 	const ServerConfig* chooseServer(Connect* conn,
 												const std::vector
-												        <ServerConfig>& config);
+												        <const ServerConfig*>& config);
 
 private:
 	int checkServerIPs(in_addr_t reqIP, int reqPort,

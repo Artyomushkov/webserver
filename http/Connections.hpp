@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 11:57:20 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/12 22:06:25 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/25 21:29:49 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ class	Connections: public Request, public Responce, public GetServer
 	public:
 		Connections() {};
 		~Connections() {};
-		int					read_request(int fds, std::vector<ServerConfig> const &srvs_config);
+		int					read_request(int fds, std::vector<const ServerConfig*> const &srvs_config);
 		std::vector<int>	checkTime(time_t time_out);
 
 	private:
