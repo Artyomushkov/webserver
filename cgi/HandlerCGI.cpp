@@ -105,6 +105,21 @@ std::string HandlerCGI::getInterpretator(Connect *conn) {
 void	HandlerCGI::handleCGI(Connect* conn, std::string const
 &path_interpritator, std::string& head, AContent* body)
 {
+	struct stat			_buf;
+	std::ifstream		_file;
+	if (stat(conn->full_file_path.data(), &_buf) == -1)
+	{
+		if (errno == ENOENT)
+			throw (std::runtime_error("404"));
+	}
+	else
+	{
+		_file.open(conn->full_file_path.data());
+		if (!_file.is_open())
+			throw (std::runtime_error("403"));
+		_file.close();
+	}
+
 	std::vector<std::string> envVec = init_env(conn);
 	char** env = form_env(envVec);
 

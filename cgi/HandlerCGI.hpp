@@ -8,6 +8,7 @@
 #include <unistd.h>
 # include <sys/fcntl.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/socket.h>
 # include "ServerConfig.hpp"
