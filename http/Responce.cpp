@@ -6,7 +6,7 @@
 /*   By: msimon <msimon@student.21-school.ru>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 15:04:37 by msimon            #+#    #+#             */
-/*   Updated: 2022/04/25 22:25:04 by msimon           ###   ########.fr       */
+/*   Updated: 2022/04/27 15:42:47 by msimon           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,9 +224,11 @@ void	Responce::sending(Connect* conn, std::string const& http_code)
 		_head += "Content-Length: " + std::to_string(_body->len()) + "\r\n\r\n";
 	else
 		_head += "Content-Length: 0\r\n\r\n";
-	send(conn->fds, _head.data(), _head.length(), 0);
+	if (send(conn->fds, _head.data(), _head.length(), 0) != static_cast<ssize_t>(_head.length()))
+		throw (std::runtime_error("500"));
 	if (_body && _body->len())
-		send(conn->fds, _body->get_content(), _body->len(), 0);
+		if (send(conn->fds, _body->get_content(), _body->len(), 0) != static_cast<ssize_t>(_body->len()))
+			throw (std::runtime_error("500"));
 }
 
 void	Responce::set_other_page(Connect* conn, std::string const& code, bool f_body)

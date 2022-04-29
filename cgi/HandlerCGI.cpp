@@ -164,7 +164,8 @@ void	HandlerCGI::handleCGI(Connect* conn, std::string const
 		fcntl(fdOut[0], F_SETFL, O_NONBLOCK);
 	while ((write_len + (2 * 4096)) < buf.len())
 	{
-		write(fdIn[1], buf.get_content() + write_len, 4096);
+		if (write(fdIn[1], buf.get_content() + write_len, 4096) != 4096)
+			throw (std::runtime_error("500"));
 		write_len += 4096;
 		read_len = read(fdOut[0], read_buf, 4096);		
 		if (read_len > 0)
@@ -172,7 +173,9 @@ void	HandlerCGI::handleCGI(Connect* conn, std::string const
 		else if (read_len == 0)
 			close_fd = 1;
 	}
-	write(fdIn[1], buf.get_content() + write_len, buf.len() - write_len);
+	if (write(fdIn[1], buf.get_content() + write_len, buf.len() - write_len) != 
+		static_cast<ssize_t>(buf.len() - write_len))
+		throw (std::runtime_error("500"));
 
 	close(fdIn[1]);
 	read_len = read(fdOut[0], read_buf, 4096);
