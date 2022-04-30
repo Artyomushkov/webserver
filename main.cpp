@@ -13,6 +13,7 @@
 #include "Connections.hpp"
 #include "ServerConfig.hpp"
 #include "ConfigParser.hpp"
+#include <csignal>
 #include "utils.hpp"
 
 #define TIME_OUT 600 //Время ожидания в секундах
@@ -41,7 +42,8 @@ void	init_servers(const std::vector<ServerConfig>& configs, std::map<int, std::v
 	std::map<int, std::pair<in_addr_t, int> >	addr_servers;
 	int	fd_conn;
 
-	while (it != configs.end())
+
+    while (it != configs.end())
 	{
 		for(std::vector<std::pair<in_addr_t, int> >::const_iterator it_addr =
 				it->getVectorOfAddresses().begin();
@@ -59,6 +61,9 @@ void	init_servers(const std::vector<ServerConfig>& configs, std::map<int, std::v
 				int	temp = 1;
 				if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR, &temp, sizeof(int)) < 0)
 					{perror("socket reinit error"); exit(EXIT_FAILURE);}
+                temp = 1;
+                if (setsockopt(server_fd, SOL_SOCKET, SO_NOSIGPIPE, &temp, sizeof(int)) < 0)
+                    {perror("socket nosigpipe error"); exit(EXIT_FAILURE);}
 
 				address.sin_family = AF_INET;
 				address.sin_addr.s_addr = it_addr->first;
@@ -106,6 +111,7 @@ int main(int argc, char **argv)
 	int					socket_fd;
 	fd_set				readfds;
 	fd_set				b_readfds;
+	fd_set 				b_writefds;
 	Connections			connects;
 	std::map<int, std::vector<const ServerConfig*> >	servers;
 	
@@ -143,10 +149,12 @@ int main(int argc, char **argv)
 	struct timeval	tv; tv.tv_sec = TIME_OUT + 1; tv.tv_usec = 0;
 	while (1)
 	{
+		b_writefds = readfds;
 		b_readfds = readfds;
-		res_select = select(FD_SETSIZE, &b_readfds, NULL, NULL, &tv);
-		if (res_select == 0)
-			close_connections(connects.checkTime(TIME_OUT), &readfds);
+		res_select = select(FD_SETSIZE, &b_readfds, &b_writefds, NULL, &tv);
+		if (res_select == 0) {
+            close_connections(connects.checkTime(TIME_OUT), &readfds);
+        }
 		else if (res_select > 0)
 		{
 			for (int i = 0; i < FD_SETSIZE; i++)
@@ -157,7 +165,7 @@ int main(int argc, char **argv)
 					if (find_client_fds == client_fds.end())
 					{
 						if ((socket_fd = accept(i, NULL, NULL)) < 0)
-							{ perror("accept"); exit(EXIT_FAILURE);}						
+							{ perror("accept"); exit(EXIT_FAILURE);}
 						FD_SET(socket_fd, &readfds);
 						client_fds[socket_fd] = &(servers[i]);
 					}
@@ -170,6 +178,4 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-	std::cout << "EXIT NORM\n";
-	return 0;
 }

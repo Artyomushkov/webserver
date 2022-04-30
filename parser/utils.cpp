@@ -35,7 +35,6 @@ std::vector<std::string> strSplitBySlash(const std::string& str) {
 		pos = nextPos + 1;
 		nextPos = str.find('/', pos);
 	}
-//	res.push_back(str.substr(pos, str.length() - pos));
 	return res;
 }
 

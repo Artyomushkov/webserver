@@ -47,7 +47,12 @@ int	Connections::read_request(int fds, std::vector<const ServerConfig*> const &s
 		}
 	}
 	catch (std::exception &e) {
-		Responce::sending(conn, e.what());
+        if (std::string(e.what()) == "900")
+        {
+            delConnect(fds);
+            return 1;
+        }
+        Responce::sending(conn, e.what());
 		if (Responce::get_code(e.what()) == "500")
 		{
 			delConnect(fds);

@@ -59,25 +59,6 @@ void GetServer::getConfigInformation(Connect* conn,
 		conn->location = res;
 		return;
 	}
-/*	size_t maxDirs = 0;
-	std::vector<std::string> urlParsed = strSplitBySlash(uri);
-	for (std::vector<Route>::const_iterator it = vecRoute.begin(); it !=
-																   vecRoute.end(); ++it) {
-		std::vector<std::string> routeParsed = strSplitBySlash(it->getRoute());
-		size_t i = 0;
-		while (i < routeParsed.size() && i < urlParsed.size()) {
-			if (routeParsed[i] == urlParsed[i]) {
-				++i;
-			}
-			else
-				break;
-		}
-		if (i > maxDirs) {
-			maxDirs = i;
-			res = &(*it);
-		}
-		routeParsed.clear();
-	}*/
 	size_t maxLen = 0;
 	for (std::vector<Route>::const_iterator it = vecRoute.begin(); it !=
 													vecRoute.end(); ++it) {

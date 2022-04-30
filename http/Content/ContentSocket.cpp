@@ -24,7 +24,7 @@ void	ContentSocket::read(int fd, bool &f_soc_close)
 	if (read_len < 0)
 	{
 		delete[] buffer;
-		throw (std::runtime_error("500"));
+		throw (std::runtime_error("900"));
 	}
 	if (read_len == 0)
 	{
@@ -39,7 +39,7 @@ void	ContentSocket::read(int fd, bool &f_soc_close)
 		if (read_len < 0)
 		{
 			delete[] buffer;
-			throw (std::runtime_error("500"));
+			throw (std::runtime_error("900"));
 		}
 	}
 	this->push_back(buffer, read_len);

@@ -219,16 +219,15 @@ void	Responce::sending(Connect* conn, std::string const& http_code)
 	}
 	else
 		set_other_page(conn, http_code);
-	
 	if (_body && _body->len())
 		_head += "Content-Length: " + std::to_string(_body->len()) + "\r\n\r\n";
 	else
 		_head += "Content-Length: 0\r\n\r\n";
 	if (send(conn->fds, _head.data(), _head.length(), 0) != static_cast<ssize_t>(_head.length()))
-		throw (std::runtime_error("500"));
+		throw (std::runtime_error("900"));
 	if (_body && _body->len())
 		if (send(conn->fds, _body->get_content(), _body->len(), 0) != static_cast<ssize_t>(_body->len()))
-			throw (std::runtime_error("500"));
+			throw (std::runtime_error("900"));
 }
 
 void	Responce::set_other_page(Connect* conn, std::string const& code, bool f_body)
